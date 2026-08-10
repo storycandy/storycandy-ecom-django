@@ -1,0 +1,267 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" data-theme="storycandy">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Storycandy | Fostering Curiosity & Reading Habits{% endblock %}</title>
+
+    <!-- Meta Descriptions for SEO -->
+    <meta name="description"
+        content="Storycandy - Fostering foundational literacy through 500+ curated books, NEP 2020 aligned school book fairs, and author sessions across India.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS Engine -->
+    {% tailwind_css %}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-base-100 text-base-content min-h-screen flex flex-col antialiased">
+
+    <!-- Top Announcement Bar using Deep Plum (#4A1525) instead of Blue -->
+    <div class="bg-brand-plum text-brand-cream text-xs sm:text-sm py-2.5 px-4 text-center font-medium tracking-wide">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <span class="hidden md:inline">NEP 2020 Aligned | 300+ School Book Fairs Conducted</span>
+            <span class="mx-auto md:mx-0">Free Shipping on Orders Above ₹500</span>
+            <div class="hidden md:flex items-center gap-4 text-xs">
+                <span>Helpline: +91 98765 43210</span>
+                <span>|</span>
+                <a href="#book-fair-info" class="underline hover:text-brand-gold transition">For Schools &
+                    Principals</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN NAVBAR ==================== -->
+<!-- Main Header -->
+<header class="sticky top-0 z-50 bg-base-100 border-b border-base-200 shadow-xs">
+    <div class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-[80px] relative">
+
+            <!-- Brand Logo (Left Column) -->
+            <div class="flex items-center gap-3 shrink-0">
+                <a href="/" class="flex items-center gap-3">
+                    <img src="{% static 'images/storycandy-logo.webp' %}" alt="Storycandy Logo"
+                        class="h-[80px] w-auto object-contain" />
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-black tracking-tight text-brand-plum leading-none">
+                            Story<span class="text-brand-teal">candy</span>
+                        </span>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-brand-teal mt-0.5">
+                            Sweet Stories, Big Dreams
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Search Bar (Perfectly Centered Absolutely) -->
+            <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-full max-w-md">
+                <form action="{% url 'book_list' %}" method="GET" class="w-full relative flex items-center">
+                    <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search by title, author, or age..."
+                        class="input input-bordered input-sm sm:input-md w-full pr-10 rounded-full bg-base-200/50 border-base-300 focus:bg-base-100 focus:border-brand-teal focus:outline-none transition-colors" />
+                    <button type="submit" aria-label="Search"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-plum/50 hover:text-brand-teal transition-colors flex items-center justify-center p-1">
+                        <!-- Lucide: Search -->
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Header Actions (Right Column) -->
+            <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+                <!-- Books Navigation Link -->
+                <a href="{% url 'book_list' %}" 
+                   class="text-sm font-bold text-brand-plum hover:text-brand-teal transition-colors hidden md:inline-block px-1">
+                    Books
+                </a>
+
+                <!-- About Navigation Link -->
+                <a href="{% url 'about' %}" 
+                   class="text-sm font-bold text-brand-plum hover:text-brand-teal transition-colors hidden md:inline-block px-1">
+                    About
+                </a>
+
+                <!-- Host a Book Fair CTA -->
+                <a href="/#book-fair-info"
+                    class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-sm rounded-full font-bold shadow-xs hidden sm:inline-flex">
+                    Host a Book Fair
+                </a>
+
+                <!-- Cart Button -->
+                <a href="{% url 'cart' %}" class="relative btn btn-ghost btn-circle text-brand-plum">
+                    <!-- Lucide: Shopping Bag -->
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                        <path d="M3 6h18" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    <!-- Cart Counter Badge -->
+                    <span id="cart-count-badge"
+                        class="absolute -top-1 -right-1 bg-brand-coral text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center shadow-xs">
+                        {{ cart_count|default:0 }}
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+    <!-- ==================== MESSAGES / ALERTS ==================== -->
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow-sm mb-2 text-sm flex justify-between">
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-brand-plum text-brand-cream/80 pt-12 pb-8 border-t border-brand-gold/20">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+
+                <!-- Brand Summary -->
+                <div class="lg:col-span-2">
+                    <a href="/" class="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2 mb-4">
+                        <img src="{% static 'images/storycandy-logo.webp' %}" alt="Storycandy Logo"
+                            class="h-[80px] w-auto object-contain" />
+                        <span>Storycandy</span>
+                    </a>
+                    <p class="text-sm text-brand-cream/70 mb-4 max-w-sm leading-relaxed">
+                        Trusted partner in school literacy. Fostering curiosity, vocabulary growth, and reading habits
+                        aligned with NEP 2020 through curated books and school book fairs.
+                    </p>
+                    <div class="flex items-center gap-3 text-xs">
+                        <span
+                            class="bg-black/20 text-brand-cream px-3 py-1.5 rounded-md border border-brand-gold/20 font-medium">
+                            300+ School Fairs
+                        </span>
+                        <span
+                            class="bg-black/20 text-brand-cream px-3 py-1.5 rounded-md border border-brand-gold/20 font-medium">
+                            50+ Author Sessions
+                        </span>
+                    </div>
+                </div>
+
+                <!-- E-Commerce Links -->
+                <div>
+                    <h4 class="text-brand-gold font-bold text-sm uppercase tracking-wider mb-4">Browse Store</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="{% url 'book_list' %}?collection=1" class="hover:text-white transition">Bestseller Books</a></li>
+                        <li><a href="{% url 'book_list' %}?collection=2" class="hover:text-white transition">Popular Series</a></li>
+                        <li><a href="{% url 'book_list' %}?collection=3" class="hover:text-white transition">India Publishing</a></li>
+                        <li><a href="{% url 'book_list' %}?collection=4" class="hover:text-white transition">Multilingual Collection</a></li>
+                        <li><a href="{% url 'book_list' %}?collection=5" class="hover:text-white transition">Activity & STEM Sets</a></li>
+                    </ul>
+                </div>
+
+                <!-- School / B2B Services -->
+                <div>
+                    <h4 class="text-brand-gold font-bold text-sm uppercase tracking-wider mb-4">For Educators</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="text-brand-coral font-bold hover:text-white transition">Host a Book
+                                Fair</a></li>
+                        <li><a href="#" class="hover:text-white transition">School Library Incentives</a></li>
+                        <li><a href="#" class="hover:text-white transition">Teacher Discounts (15%)</a></li>
+                        <li><a href="#" class="hover:text-white transition">Author Sessions</a></li>
+                        <li><a href="#" class="hover:text-white transition">Bulk Orders & Gifting</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Regional Info -->
+                <div>
+                    <h4 class="text-brand-gold font-bold text-sm uppercase tracking-wider mb-4">Contact Us</h4>
+                    <ul class="space-y-2.5 text-sm text-brand-cream/70">
+                        <li><strong class="text-white font-semibold">Hubs:</strong> Mumbai & Pune</li>
+                        <li><strong class="text-white font-semibold">Email:</strong> contact@storycandy.in</li>
+                        <li><strong class="text-white font-semibold">Schools Helpline:</strong> +91 98765 43210</li>
+                        <li class="pt-2">
+                            <span
+                                class="inline-block text-xs bg-brand-teal/20 text-brand-teal px-3 py-1 rounded-md border border-brand-teal/40 font-bold">
+                                ✓ NEP 2020 Compliant
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="border-brand-gold/20 mb-8" />
+
+            <!-- Bottom Copyright & Legal -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-cream/60">
+                <p>&copy; {% now "Y" %} Storycandy. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-brand-cream transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-brand-cream transition">Terms of Service</a>
+                    <a href="#" class="hover:text-brand-cream transition">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('form.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            const badge = document.getElementById('cart-count-badge');
+                            if (badge && data.cart_count !== undefined) {
+                                badge.textContent = data.cart_count;
+                                badge.classList.add('scale-125');
+                                setTimeout(() => badge.classList.remove('scale-125'), 200);
+                            }
+                        } else {
+                            form.submit(); // Fallback to standard submission if non-JSON
+                        }
+                    } catch (err) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

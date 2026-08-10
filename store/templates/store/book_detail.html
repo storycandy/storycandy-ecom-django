@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-6 sm:py-10 bg-base-100 min-h-[calc(100vh-80px)] text-brand-plum">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Breadcrumb Navigation -->
+        <nav class="flex items-center gap-2 text-xs text-brand-plum/60 mb-6 font-medium">
+            <a href="{% url 'book_list' %}" class="hover:text-brand-coral transition flex items-center gap-1">
+                <!-- Lucide: Arrow Left -->
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 19-7-7 7-7" />
+                    <path d="M19 12H5" />
+                </svg>
+                <span>Back to Store</span>
+            </a>
+            <span>/</span>
+            <span class="text-brand-plum font-semibold truncate max-w-xs">{{ book.title }}</span>
+        </nav>
+
+        <!-- Main Product Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-16">
+
+            <!-- Book Cover Gallery Column -->
+            <div class="lg:col-span-5 flex flex-col gap-4" x-data="{ activeImage: '{% if book.images.first %}{{ book.images.first.image.url }}{% elif book.primary_image %}{{ book.primary_image.url }}{% elif book.cover_image %}{{ book.cover_image.url }}{% endif %}' }">
+                
+                <!-- Main Display Box -->
+                <div class="bg-base-200/40 rounded-xl p-8 relative w-full aspect-4/5 sm:aspect-square flex items-center justify-center overflow-hidden">
+                    
+                    <!-- Binding Badge -->
+                    {% if book.binding %}
+                        <span class="absolute top-4 left-4 z-10 bg-base-100/90 backdrop-blur-xs text-brand-plum text-[11px] font-bold px-3 py-1 rounded-md uppercase tracking-wider shadow-xs">
+                            {{ book.get_binding_display|default:book.binding }}
+                        </span>
+                    {% endif %}
+
+                    <!-- Image Gallery Display -->
+                    {% if book.images.all or book.primary_image or book.cover_image %}
+                        <img 
+                            :src="activeImage" 
+                            src="{% if book.images.first %}{{ book.images.first.image.url }}{% elif book.primary_image %}{{ book.primary_image.url }}{% else %}{{ book.cover_image.url }}{% endif %}" 
+                            alt="{{ book.title }}"
+                            class="w-full h-full object-contain drop-shadow-md transition duration-300 hover:scale-105" 
+                        />
+                    {% else %}
+                        <!-- No Image Fallback -->
+                        <div class="flex flex-col items-center justify-center text-brand-plum/40 gap-2">
+                            <svg class="w-16 h-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                            </svg>
+                            <span class="font-medium text-sm">No Cover Image</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Image Thumbnails Grid -->
+                {% if book.images.all|length > 1 %}
+                    <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
+                        {% for img_obj in book.images.all %}
+                            <button 
+                                type="button" 
+                                @click="activeImage = '{{ img_obj.image.url }}'"
+                                :class="activeImage === '{{ img_obj.image.url }}' ? 'border-brand-coral scale-105 shadow-md' : 'border-transparent opacity-70 hover:opacity-100'"
+                                class="relative w-16 h-20 sm:w-20 sm:h-24 rounded-lg overflow-hidden border-2 bg-base-200 shrink-0 transition-all duration-200 cursor-pointer">
+                                <img src="{{ img_obj.image.url }}" alt="{{ book.title }} thumbnail {{ forloop.counter }}" class="w-full h-full object-cover" />
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Book Details & Purchase Panel Column -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-6 w-full">
+                
+                <!-- Product Header Info -->
+                <div class="space-y-3">
+                    {% if book.age_group %}
+                        <span class="inline-block bg-brand-teal/10 text-brand-teal font-extrabold text-xs px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                            Target Age: {{ book.age_group }} Years
+                        </span>
+                    {% endif %}
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+                        {{ book.title }}
+                    </h1>
+
+                    <p class="text-sm sm:text-base text-brand-plum/70 font-medium">
+                        By <span class="text-brand-plum font-bold underline decoration-brand-plum/20 underline-offset-4">{{ book.author }}</span>
+                    </p>
+
+                    <!-- Pricing Display -->
+                    <div class="flex items-baseline gap-3 pt-2">
+                        <span class="text-3xl sm:text-4xl font-black">₹{{ book.price }}</span>
+                        {% if book.discount_price %}
+                            <span class="text-lg text-brand-plum/40 line-through font-medium">₹{{ book.discount_price }}</span>
+                        {% endif %}
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                            In Stock
+                        </span>
+                    </div>
+                </div>
+
+                <hr class="border-brand-plum/10" />
+
+                <!-- Overview Section -->
+                <div class="space-y-2">
+                    <h2 class="text-xs font-extrabold uppercase tracking-wider text-brand-plum/50">Overview</h2>
+                    <p class="text-sm sm:text-base text-brand-plum/80 leading-relaxed font-normal">
+                        {{ book.description|default:"Discover an engaging read designed to spark imagination, support literacy growth, and build reading confidence for young learners." }}
+                    </p>
+                </div>
+
+                <hr class="border-brand-plum/10" />
+
+                <!-- Action Controls (Cart + Buy Now) -->
+                <div class="space-y-3 pt-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Add To Cart Form -->
+                        <form action="{% url 'add_to_cart' book.id %}" method="POST" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit"
+                                class="w-full btn bg-brand-coral hover:bg-brand-coral/90 text-white border-none rounded-xl px-6 font-bold flex items-center justify-center gap-2 h-12 text-sm sm:text-base transition">
+                                <!-- Lucide: Shopping Bag -->
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                                    <path d="M3 6h18" />
+                                    <path d="M16 10a4 4 0 0 1-8 0" />
+                                </svg>
+                                <span>Add to Cart</span>
+                            </button>
+                        </form>
+
+                        <!-- Buy Now Form (Direct Checkout) -->
+                        <form action="{% url 'add_to_cart' book.id %}" method="POST" class="buy-now-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1" />
+                            <input type="hidden" name="direct_checkout" value="1" />
+                            <button type="submit"
+                                class="w-full btn bg-brand-plum hover:bg-brand-plum/90 text-white border-none rounded-xl px-6 font-bold flex items-center justify-center gap-2 h-12 text-sm sm:text-base transition">
+                                <!-- Lucide: Zap -->
+                                <svg class="w-5 h-5 text-brand-gold" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                </svg>
+                                <span>Buy Now</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <a href="{% url 'cart' %}" class="inline-flex items-center gap-1 text-xs font-bold text-brand-teal hover:underline pt-1">
+                        <span>View your shopping cart</span>
+                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"/>
+                            <path d="m12 5 7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Trust / Value Proposition -->
+                <div class="pt-2 flex items-center gap-3 text-brand-plum/80">
+                    <!-- Lucide: Shield Check -->
+                    <svg class="w-5 h-5 text-brand-teal shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                        <path d="m9 12 2 2 4-4" />
+                    </svg>
+                    <p class="text-xs font-medium">
+                        Curated for vocabulary and critical reading skills aligned with the <strong>NEP 2020 framework</strong>.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Related Books Carousel / Grid -->
+        {% if related_books %}
+        <div class="pt-10 border-t border-brand-plum/10">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-black">You Might Also Like</h2>
+                    <p class="text-xs sm:text-sm text-brand-plum/70">Recommended reads from our collection.</p>
+                </div>
+                <a href="{% url 'book_list' %}"
+                    class="text-xs font-bold text-brand-coral hover:underline flex items-center gap-1">
+                    <span>View All Books</span>
+                    <!-- Lucide: Arrow Right -->
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                {% for book in related_books %}
+                    {% include 'partials/_book_card.html' with book=book %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- Native Browser Text-to-Speech JS for Audio Pronunciation -->
+<script>
+    function speakTerm(word) {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85; // Slightly slower for clarity
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert('Audio pronunciation is not supported in this browser.');
+        }
+    }
+</script>
+{% endblock %}

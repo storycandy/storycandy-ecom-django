@@ -1,0 +1,15 @@
+# Python & Virtualenvs
+*.pyc
+__pycache__/
+*.sqlite3
+venv/
+.env
+
+# Media & Static (if uploaded locally)
+/media/
+/staticfiles/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store

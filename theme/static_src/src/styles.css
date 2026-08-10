@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/**
+ * A catch-all path to Django template files, JavaScript, and Python files
+ * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
+ */
+@source "../../../**/*.{html,py,js}";
+
+/* Tailwind v4 Theme Palette */
+@theme {
+  --color-brand-plum: #4A1525;
+  --color-brand-coral: #E84A5F;
+  --color-brand-gold: #F4A261;
+  --color-brand-teal: #2A9D8F;
+  --color-brand-cream: #FFFDF9;
+}
+
+/* Force standard DaisyUI components (buttons, badges, headers) to use brand colors */
+:root {
+  --p: 343 56% 18%;       /* #4A1525 Deep Plum Primary */
+  --pc: 40 100% 99%;     /* #FFFDF9 White/Cream Text */
+  --s: 352 77% 60%;      /* #E84A5F Coral Secondary */
+  --sc: 40 100% 99%;
+  --a: 27 87% 67%;       /* #F4A261 Gold Accent */
+  --b1: 40 100% 99%;     /* #FFFDF9 Base Cream Background */
+  --b2: 33 58% 93%;      /* Soft Beige */
+  --bc: 343 38% 14%;     /* Dark Plum Text Body */
+}

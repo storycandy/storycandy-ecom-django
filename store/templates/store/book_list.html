@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-6 sm:py-10 bg-base-200/50 min-h-screen" x-data="{ mobileFilterOpen: false }">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Strip -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight flex items-center gap-2">
+                    <span>Storycandy Store</span>
+                    {% if active_collection %}
+                        <span class="text-brand-plum/40 font-normal">&mdash;</span>
+                        <span class="text-brand-teal font-extrabold">{{ active_collection.name }}</span>
+                    {% endif %}
+                </h1>
+                <p class="text-xs sm:text-sm text-brand-plum/70 mt-0.5 font-medium">Explore our complete collection of curated books for young readers</p>
+            </div>
+            
+            <a href="{% url 'checkout' %}" class="btn border-2 border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white rounded-full px-5 py-2 transition font-bold text-xs sm:text-sm bg-base-100 shadow-xs flex items-center gap-2 group shrink-0">
+                <!-- Lucide: Shopping Bag -->
+                <svg class="w-4 h-4 text-brand-teal group-hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                    <path d="M3 6h18"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span>View Cart & Checkout</span>
+            </a>
+        </div>
+
+        <!-- Layout Grid: Sidebar + Products -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+            
+            <!-- Desktop Sidebar Filter (Slim, Left Side) -->
+            <aside class="hidden lg:block lg:col-span-1 bg-base-100 rounded-2xl p-5 border border-brand-plum/10 shadow-xs sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto custom-scrollbar">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-plum/10">
+                    <div class="flex items-center gap-2 text-brand-plum font-extrabold text-sm uppercase tracking-wider">
+                        <svg class="w-4 h-4 text-brand-teal" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                        </svg>
+                        <span>Filters</span>
+                    </div>
+                    {% if request.GET.category or request.GET.language or request.GET.age_group or request.GET.collection %}
+                        <a href="{% url 'book_list' %}" class="text-[11px] font-bold text-brand-coral hover:underline">
+                            Clear All
+                        </a>
+                    {% endif %}
+                </div>
+
+                <form method="GET" action="{% url 'book_list' %}" class="space-y-6">
+                    
+                    <!-- Preserve search query if active in nav -->
+                    {% if request.GET.q %}
+                        <input type="hidden" name="q" value="{{ request.GET.q }}">
+                    {% endif %}
+
+                    <!-- Collection Section -->
+                    <div>
+                        <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Collection</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                <input type="radio" name="collection" value="" onchange="this.form.submit()" {% if not request.GET.collection %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                <span>All Collections</span>
+                            </label>
+                            {% for col in collections %}
+                                <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                    <input type="radio" name="collection" value="{{ col.id }}" onchange="this.form.submit()" {% if request.GET.collection == col.id|stringformat:"s" %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                    <span>{{ col.display_name }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <hr class="border-brand-plum/10">
+
+                    <!-- Category Section -->
+                    <div>
+                        <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Category</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                <input type="radio" name="category" value="" onchange="this.form.submit()" {% if not request.GET.category %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                <span>All Categories</span>
+                            </label>
+                            {% for cat in categories %}
+                                <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                    <input type="radio" name="category" value="{{ cat.id }}" onchange="this.form.submit()" {% if request.GET.category == cat.id|stringformat:"s" %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                    <span>{{ cat.name }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <hr class="border-brand-plum/10">
+
+                    <!-- Age Group Section -->
+                    <div>
+                        <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Age Group</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                <input type="radio" name="age_group" value="" onchange="this.form.submit()" {% if not request.GET.age_group %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                <span>All Ages</span>
+                            </label>
+                            {% for age_code, age_label in age_group_choices %}
+                                <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                    <input type="radio" name="age_group" value="{{ age_code }}" onchange="this.form.submit()" {% if request.GET.age_group == age_code %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                    <span>{{ age_label }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <hr class="border-brand-plum/10">
+
+                    <!-- Language Section -->
+                    <div>
+                        <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Language</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                <input type="radio" name="language" value="" onchange="this.form.submit()" {% if not request.GET.language %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                <span>All Languages</span>
+                            </label>
+                            {% for lang_code, lang_name in language_choices %}
+                                <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                    <input type="radio" name="language" value="{{ lang_code }}" onchange="this.form.submit()" {% if request.GET.language == lang_code %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                    <span>{{ lang_name }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                </form>
+            </aside>
+
+            <!-- Product Grid Column -->
+            <main class="col-span-1 lg:col-span-3">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for book in books %}
+                        {% include 'partials/_book_card.html' with book=book %}
+                    {% empty %}
+                        <!-- Empty State -->
+                        <div class="col-span-full text-center py-16 bg-base-100 rounded-3xl border border-dashed border-brand-plum/20 shadow-xs flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-brand-coral/10 flex items-center justify-center text-brand-coral mb-3">
+                                <!-- Lucide: Package X -->
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/>
+                                    <path d="m7.5 4.27 9 5.15"/>
+                                    <polyline points="3.29 7 12 12 20.71 7"/>
+                                    <line x1="12" x2="12" y1="22" y2="12"/>
+                                    <path d="m17 13 5 5"/>
+                                    <path d="m22 13-5 5"/>
+                                </svg>
+                            </div>
+                            <p class="text-brand-plum font-bold text-base mb-1">No books found matching your criteria!</p>
+                            <p class="text-xs text-brand-plum/60 mb-3">
+                                Try clearing your selected filters to view all products.
+                            </p>
+                            <a href="{% url 'book_list' %}" class="btn btn-xs bg-brand-coral hover:bg-brand-coral/90 text-white rounded-lg px-4 border-none font-bold">
+                                Clear All Filters
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Mobile Floating Filter Trigger Button -->
+    <button type="button" @click="mobileFilterOpen = true" class="lg:hidden fixed bottom-6 right-6 z-40 bg-brand-plum text-white shadow-xl rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider hover:bg-brand-plum/90 transition">
+        <svg class="w-4 h-4 text-brand-teal" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        <span>Filters</span>
+    </button>
+
+    <!-- Mobile Sidebar Drawer Overlay -->
+    <div x-cloak x-show="mobileFilterOpen" class="relative z-50 lg:hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div x-show="mobileFilterOpen" 
+             x-transition:enter="ease-in-out duration-300" 
+             x-transition:enter-start="opacity-0" 
+             x-transition:enter-end="opacity-100" 
+             x-transition:leave="ease-in-out duration-300" 
+             x-transition:leave-start="opacity-100" 
+             x-transition:leave-end="opacity-0" 
+             @click="mobileFilterOpen = false" 
+             class="fixed inset-0 bg-brand-plum/40 backdrop-blur-xs transition-opacity"></div>
+
+        <div class="fixed inset-0 overflow-hidden">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10">
+                    <!-- Drawer Slide-out Container -->
+                    <div x-show="mobileFilterOpen" 
+                         x-transition:enter="transform transition ease-in-out duration-300" 
+                         x-transition:enter-start="-translate-x-full" 
+                         x-transition:enter-end="translate-x-0" 
+                         x-transition:leave="transform transition ease-in-out duration-300" 
+                         x-transition:leave-start="translate-x-0" 
+                         x-transition:leave-end="-translate-x-full" 
+                         class="pointer-events-auto w-screen max-w-md bg-base-100 shadow-2xl flex flex-col h-full">
+                        
+                        <!-- Drawer Header -->
+                        <div class="flex items-center justify-between p-4 border-b border-brand-plum/10">
+                            <h2 class="text-base font-extrabold text-brand-plum uppercase tracking-wider flex items-center gap-2">
+                                <svg class="w-4 h-4 text-brand-teal" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                                </svg>
+                                <span>Filter Products</span>
+                            </h2>
+                            <button type="button" @click="mobileFilterOpen = false" class="text-brand-plum/60 hover:text-brand-plum p-1 cursor-pointer">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Scrollable Mobile Filter Content -->
+                        <div class="flex-1 overflow-y-auto p-5 space-y-6">
+                            <form method="GET" action="{% url 'book_list' %}" class="space-y-6">
+                                {% if request.GET.q %}
+                                    <input type="hidden" name="q" value="{{ request.GET.q }}">
+                                {% endif %}
+
+                                <!-- Collection Section -->
+                                <div>
+                                    <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Collection</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                            <input type="radio" name="collection" value="" onchange="this.form.submit()" {% if not request.GET.collection %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                            <span>All Collections</span>
+                                        </label>
+                                        
+                                        {% for col in collections %}
+                                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80 hover:text-brand-plum">
+                                                <input type="radio" name="collection" value="{{ col.id }}" onchange="this.form.submit()" {% if request.GET.collection == col.id|stringformat:"s" %}checked{% endif %} class="radio radio-xs text-brand-teal focus:ring-brand-teal">
+                                                <span>{{ col.display_name }}</span>
+                                            </label>
+                                        {% empty %}
+                                            <p class="text-xs text-brand-plum/50 italic">No collections found.</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <hr class="border-brand-plum/10">
+
+                                <!-- Category Section -->
+                                <div>
+                                    <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Category</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80">
+                                            <input type="radio" name="category" value="" onchange="this.form.submit()" {% if not request.GET.category %}checked{% endif %} class="radio radio-xs text-brand-teal">
+                                            <span>All Categories</span>
+                                        </label>
+                                        {% for cat in categories %}
+                                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80">
+                                                <input type="radio" name="category" value="{{ cat.id }}" onchange="this.form.submit()" {% if request.GET.category == cat.id|stringformat:"s" %}checked{% endif %} class="radio radio-xs text-brand-teal">
+                                                <span>{{ cat.name }}</span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <hr class="border-brand-plum/10">
+
+                                <!-- Age Group Section -->
+                                <div>
+                                    <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Age Group</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80">
+                                            <input type="radio" name="age_group" value="" onchange="this.form.submit()" {% if not request.GET.age_group %}checked{% endif %} class="radio radio-xs text-brand-teal">
+                                            <span>All Ages</span>
+                                        </label>
+                                        {% for age_code, age_label in age_group_choices %}
+                                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80">
+                                                <input type="radio" name="age_group" value="{{ age_code }}" onchange="this.form.submit()" {% if request.GET.age_group == age_code %}checked{% endif %} class="radio radio-xs text-brand-teal">
+                                                <span>{{ age_label }}</span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <hr class="border-brand-plum/10">
+
+                                <!-- Language Section -->
+                                <div>
+                                    <h3 class="text-xs font-bold text-brand-plum uppercase tracking-wider mb-2.5">Language</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80">
+                                            <input type="radio" name="language" value="" onchange="this.form.submit()" {% if not request.GET.language %}checked{% endif %} class="radio radio-xs text-brand-teal">
+                                            <span>All Languages</span>
+                                        </label>
+                                        {% for lang_code, lang_name in language_choices %}
+                                            <label class="flex items-center gap-2 cursor-pointer text-xs text-brand-plum/80">
+                                                <input type="radio" name="language" value="{{ lang_code }}" onchange="this.form.submit()" {% if request.GET.language == lang_code %}checked{% endif %} class="radio radio-xs text-brand-teal">
+                                                <span>{{ lang_name }}</span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <!-- Drawer Footer -->
+                        <div class="p-4 border-t border-brand-plum/10 flex items-center justify-between gap-3 bg-base-200/50">
+                            <a href="{% url 'book_list' %}" class="btn btn-ghost btn-sm text-xs text-brand-plum/70 font-bold">
+                                Clear Filters
+                            </a>
+                            <button type="button" @click="mobileFilterOpen = false" class="btn btn-sm bg-brand-teal hover:bg-brand-teal/90 text-white border-none rounded-xl font-bold px-6 text-xs uppercase cursor-pointer">
+                                Close
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

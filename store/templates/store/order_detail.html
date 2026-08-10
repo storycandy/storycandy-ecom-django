@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {# Or whatever your main base template is named #}
+
+{% block content %}
+<div class="container my-5 mx-auto" style="max-width: 800px;">
+    <!-- Order Header -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-slate-500 text-white d-flex justify-content-between align-items-center p-3">
+            <h4 class="mb-0">Order Details</h4>
+            <span class="badge bg-light text-dark font-monospace fs-6">
+                Ref: #{{ order.tracking_id|stringformat:".8s"|upper }}
+            </span>
+        </div>
+        <div class="card-body p-4">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h6 class="text-muted text-uppercase mb-1" style="font-size: 0.8rem;">Customer Name</h6>
+                    <p class="fw-bold mb-0">{{ order.full_name }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-muted text-uppercase mb-1" style="font-size: 0.8rem;">Email Address</h6>
+                    <p class="fw-bold mb-0">{{ order.email }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h6 class="text-muted text-uppercase mb-1" style="font-size: 0.8rem;">Payment Status</h6>
+                    {% if order.paid %}
+                        <span class="badge bg-success">Paid</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Payment Pending</span>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-muted text-uppercase mb-1" style="font-size: 0.8rem;">Order Date</h6>
+                    <p class="mb-0">{{ order.created_at|date:"F d, Y h:i A" }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <h6 class="text-muted text-uppercase mb-1" style="font-size: 0.8rem;">Shipping Address</h6>
+                <p class="mb-0 text-secondary">{{ order.shipping_address|linebreaksbr }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchased Items -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light p-3">
+            <h5 class="mb-0">Items Purchased</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="ps-4">Book Title</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col" class="text-end pe-4">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td class="ps-4">
+                                <strong>{{ item.book.title }}</strong>
+                            </td>
+                            <td class="text-center">{{ item.quantity }}</td>
+                            <td class="text-end pe-4">₹{{ item.price }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center py-3 text-muted">No items found for this order.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr>
+                            <td colspan="2" class="text-end fw-bold fs-5">Total Paid:</td>
+                            <td class="text-end pe-4 fw-bold fs-5 text-primary">₹{{ order.total_amount }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'book_list' %}" class="btn btn-outline-secondary">
+            &larr; Back to Shop
+        </a>
+    </div>
+</div>
+{% endblock %}

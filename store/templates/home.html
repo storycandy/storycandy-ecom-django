@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Storycandy | Fostering Curiosity & Reading Habits{% endblock %}
+
+{% block content %}
+
+<!-- ==================== 1. HERO SECTION ==================== -->
+<!-- ==================== HERO SECTION ==================== -->
+<section class="relative bg-base-100 py-12 overflow-hidden min-h-[550px] flex items-center">
+    
+    <!-- Background Image: Desktop Right / Mobile Full Cover -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <img src="{% static 'images/hero-bg.webp' %}" 
+             alt="Children enjoying books" 
+             class="w-full h-full object-cover object-left lg:w-1/2 lg:ml-auto" />
+        
+        <!-- Backdrop Gradients for Text Visibility -->
+        <!-- Mobile/Tablet: Bottom-to-Top Dark Backdrop Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/90 to-base-100/40 lg:hidden"></div>
+        
+        <!-- Desktop: Soft Left-to-Right Fade (Blends Cream BG seamlessly into Image) -->
+        <div class="hidden lg:block absolute inset-0 bg-gradient-to-r from-base-100 via-base-100/95 to-transparent w-3/5"></div>
+    </div>
+
+    <!-- Hero Content Layer -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="max-w-xl text-center lg:text-left space-y-6 sm:pr-8">
+            
+            <!-- NEP / Literacy Badge -->
+            <div class="inline-flex items-center gap-2 bg-brand-gold/20 text-brand-plum text-xs font-bold px-3.5 py-1.5 rounded-full border border-brand-gold/40 shadow-xs backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-brand-coral animate-pulse"></span>
+                <span>Redefining Children's Literacy</span>
+            </div>
+            
+            <!-- Headline (Matches About Page) -->
+            <h1 class="text-4xl sm:text-5xl lg:text-5xl font-black text-brand-plum tracking-tight leading-tight">
+                Changing the way children fall in love with <span class="text-brand-coral underline decoration-brand-gold decoration-4">reading.</span>
+            </h1>
+            
+            <!-- Subtitle (Adapted from About Content) -->
+            <p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed">
+                We believe every child deserves one magical moment with a book. Creating extraordinary reading experiences, curated collections, and zero-hassle book fairs across India.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                <a href="#featured-books" class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-md sm:btn-lg rounded-full px-8 shadow-md transition">
+                    Explore Books
+                </a>
+                <a href="#book-fair-info" class="btn border-2 border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white btn-md sm:btn-lg rounded-full px-8 transition bg-base-100/80 backdrop-blur-sm">
+                    Host a Book Fair
+                </a>
+            </div>
+
+            <!-- Mini Trust Strip (Adapted from About Taglines) -->
+            <div class="pt-6 border-t border-base-300/80 flex flex-wrap justify-center lg:justify-start gap-6 text-brand-plum/90 text-xs font-bold">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-brand-teal font-extrabold text-sm">✓</span> Building Readers, Building Futures
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-brand-teal font-extrabold text-sm">✓</span> Where Reading Comes Alive
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-brand-teal font-extrabold text-sm">✓</span> Inspiring Curious Minds
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 2. STATS BAR ==================== -->
+<section class="bg-brand-plum text-brand-cream py-12 border-y border-brand-gold/20 shadow-inner">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+            <div class="text-3xl sm:text-4xl font-black text-brand-gold">300+</div>
+            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">School Book Fairs</div>
+        </div>
+        <div>
+            <div class="text-3xl sm:text-4xl font-black text-brand-coral">85+</div>
+            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">Partner Institutions</div>
+        </div>
+        <div>
+            <div class="text-3xl sm:text-4xl font-black text-brand-teal">50+</div>
+            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">Author Sessions</div>
+        </div>
+        <div>
+            <div class="text-3xl sm:text-4xl font-black text-brand-cream">100%</div>
+            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">NEP 2020 Aligned</div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 3. SHOP BY AGE ==================== -->
+<section class="py-16 bg-base-200/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-xl mx-auto mb-10">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">Shop by Age Group</h2>
+            <p class="text-xs sm:text-sm text-brand-plum/70 mt-2 font-medium">Find the right reading level and interests for every child</p>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Early Readers (3–5) -->
+            <a href="{% url 'book_list' %}?age_group=3-5" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-coral/5 border border-brand-plum/10 hover:border-brand-coral/40 transition-all shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-brand-coral/10 text-brand-coral font-bold text-xs px-3 py-1 rounded-full mb-3">Early Readers</span>
+                <h3 class="text-xl font-bold text-brand-plum group-hover:text-brand-coral transition">Ages 3 – 5</h3>
+                <p class="text-xs text-brand-plum/70 mt-2">Picture books, phonic sets & activity books</p>
+            </a>
+
+            <!-- Growing Readers (6–8) -->
+            <a href="{% url 'book_list' %}?age_group=6-8" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-gold/10 border border-brand-plum/10 hover:border-brand-gold/40 transition-all shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-brand-gold/20 text-brand-plum font-bold text-xs px-3 py-1 rounded-full mb-3">Growing Readers</span>
+                <h3 class="text-xl font-bold text-brand-plum group-hover:text-brand-plum transition">Ages 6 – 8</h3>
+                <p class="text-xs text-brand-plum/70 mt-2">Early chapter books & STEM activities</p>
+            </a>
+
+            <!-- Independent (9–12) -->
+            <a href="{% url 'book_list' %}?age_group=9-12" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-teal/5 border border-brand-plum/10 hover:border-brand-teal/40 transition-all shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-brand-teal/10 text-brand-teal font-bold text-xs px-3 py-1 rounded-full mb-3">Independent</span>
+                <h3 class="text-xl font-bold text-brand-plum group-hover:text-brand-teal transition">Ages 9 – 12</h3>
+                <p class="text-xs text-brand-plum/70 mt-2">Fiction series, biographies & values</p>
+            </a>
+
+            <!-- Young Adults (13+) -->
+            <a href="{% url 'book_list' %}?age_group=13%2B" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-plum/5 border border-brand-plum/10 hover:border-brand-plum/30 transition-all shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-brand-plum/10 text-brand-plum font-bold text-xs px-3 py-1 rounded-full mb-3">Young Adults</span>
+                <h3 class="text-xl font-bold text-brand-plum transition">Teens / 13+</h3>
+                <p class="text-xs text-brand-plum/70 mt-2">Novels, self-reliance & well-being</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CURATED COLLECTIONS ==================== -->
+
+<!-- 1. BESTSELLERS SECTION -->
+<section id="bestseller-collection" class="py-16 bg-base-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-brand-plum/10 pb-4">
+            <div>
+                <span class="inline-block bg-brand-coral/10 text-brand-coral font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Top Readers Choice</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">Bestseller Books</h2>
+                <p class="text-xs sm:text-sm text-brand-plum/70 mt-1 font-medium">Most loved and highly requested titles by kids and parents</p>
+            </div>
+            <a href="{% url 'book_list' %}?collection=1" class="btn btn-ghost btn-sm text-brand-teal hover:bg-brand-teal/10 rounded-full font-bold self-start sm:self-auto">
+                View All Bestsellers →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for book in bestseller_books %}
+                {% include 'partials/_book_card.html' with book=book %}
+            {% empty %}
+                <div class="col-span-full text-center py-12 bg-base-200/50 rounded-2xl border border-dashed border-brand-plum/20">
+                    <p class="text-brand-plum font-semibold text-sm">No bestseller books found.</p>
+                    <p class="text-xs text-brand-plum/60 mt-1">Assign books to the "Bestseller" collection in Django Admin.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 2. POPULAR SERIES SECTION -->
+<section id="popular-series-collection" class="py-16 bg-base-200/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-brand-plum/10 pb-4">
+            <div>
+                <span class="inline-block bg-brand-gold/20 text-brand-plum font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Binge-Worthy Sets</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">Popular Series</h2>
+                <p class="text-xs sm:text-sm text-brand-plum/70 mt-1 font-medium">Multi-part adventures and beloved multi-book collections</p>
+            </div>
+            <a href="{% url 'book_list' %}?collection=2" class="btn btn-ghost btn-sm text-brand-teal hover:bg-brand-teal/10 rounded-full font-bold self-start sm:self-auto">
+                View All Series →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for book in popular_books %}
+                {% include 'partials/_book_card.html' with book=book %}
+            {% empty %}
+                <div class="col-span-full text-center py-12 bg-base-100 rounded-2xl border border-dashed border-brand-plum/20">
+                    <p class="text-brand-plum font-semibold text-sm">No popular series books found.</p>
+                    <p class="text-xs text-brand-plum/60 mt-1">Assign books to the "Popular Series" collection in Django Admin.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 3. INDIA PUBLISHING SECTION -->
+<section id="india-publishing-collection" class="py-16 bg-base-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-brand-plum/10 pb-4">
+            <div>
+                <span class="inline-block bg-brand-teal/10 text-brand-teal font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Cultural & Local Stories</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">India Publishing</h2>
+                <p class="text-xs sm:text-sm text-brand-plum/70 mt-1 font-medium">Rich Indian heritage, mythology, regional tales, and indigenous authors</p>
+            </div>
+            <a href="{% url 'book_list' %}?collection=3" class="btn btn-ghost btn-sm text-brand-teal hover:bg-brand-teal/10 rounded-full font-bold self-start sm:self-auto">
+                Explore India Publishing →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for book in india_publishing_books %}
+                {% include 'partials/_book_card.html' with book=book %}
+            {% empty %}
+                <div class="col-span-full text-center py-12 bg-base-200/50 rounded-2xl border border-dashed border-brand-plum/20">
+                    <p class="text-brand-plum font-semibold text-sm">No India Publishing books found.</p>
+                    <p class="text-xs text-brand-plum/60 mt-1">Assign books to the "India Publishing" collection in Django Admin.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 5. B2B SCHOOL BOOK FAIR BANNER ==================== -->
+<section id="book-fair-info" class="py-16 bg-brand-plum text-brand-cream border-y border-brand-gold/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7 space-y-6">
+            <span class="inline-block bg-brand-gold text-brand-plum text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+                For Principals & Coordinators
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
+                Bring the Storycandy Book Fair to Your School
+            </h2>
+            <p class="text-brand-cream/80 text-sm sm:text-base leading-relaxed font-normal">
+                We manage everything from curation to logistics with zero burden on school staff. Let’s turn your campus into a reading festival!
+            </p>
+
+            <div class="grid sm:grid-cols-2 gap-4 text-sm text-brand-cream pt-2">
+                <div class="p-4 rounded-xl bg-black/20 border border-brand-gold/20 backdrop-blur-xs">
+                    <div class="text-brand-gold font-extrabold text-lg">25% Incentive</div>
+                    <p class="text-xs text-brand-cream/70 mt-1">Free books earned for school library based on total fair sales.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-black/20 border border-brand-gold/20 backdrop-blur-xs">
+                    <div class="text-brand-gold font-extrabold text-lg">15% Discount</div>
+                    <p class="text-xs text-brand-cream/70 mt-1">Special discount for all personal teacher purchases.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-base-100 text-brand-plum p-6 sm:p-8 rounded-3xl shadow-2xl border border-brand-gold/30">
+            <h3 class="text-xl font-extrabold text-brand-plum">Host a Book Fair</h3>
+            <p class="text-xs text-brand-plum/70 mb-6">Request a custom proposal for your school</p>
+            
+            <form action="#" method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">School Name</label>
+                    <input type="text" placeholder="e.g. Delhi Public School" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">City</label>
+                        <select class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
+                            <option>Mumbai</option>
+                            <option>Pune</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">Board</label>
+                        <select class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
+                            <option>CBSE</option>
+                            <option>ICSE</option>
+                            <option>IB / Cambridge</option>
+                            <option>State Board</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">Email / Mobile</label>
+                    <input type="text" placeholder="principal@school.edu.in" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
+                </div>
+
+                <button type="submit" class="btn bg-brand-coral hover:bg-brand-coral/90 text-white border-none w-full rounded-xl font-bold mt-2 shadow-md">
+                    Submit Proposal Request
+                </button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

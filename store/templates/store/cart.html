@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-12 bg-base-200/50 min-h-[calc(100vh-80px)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <h1 class="text-3xl font-extrabold text-brand-plum tracking-tight mb-8">Your Shopping Cart</h1>
+
+        {% if cart_items %}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Cart Items List -->
+            <div class="lg:col-span-8 space-y-4">
+                {% for item in cart_items %}
+                <div class="bg-base-100 rounded-2xl border border-brand-plum/10 p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    
+                    <div class="flex items-center gap-4">
+                        {% if item.book.cover_image %}
+                            <img src="{{ item.book.cover_image.url }}" alt="{{ item.book.title }}" class="w-16 h-20 object-contain rounded-md bg-base-200/50 p-1 shrink-0" />
+                        {% else %}
+                            <div class="w-16 h-20 bg-base-200/50 rounded-md flex items-center justify-center text-brand-plum/40 shrink-0">
+                                <!-- Lucide: Book Open -->
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                                </svg>
+                            </div>
+                        {% endif %}
+
+                        <div>
+                            <h3 class="font-bold text-brand-plum text-base leading-snug">
+                                <a href="{% url 'book_detail' item.book.id %}" class="hover:text-brand-coral transition">
+                                    {{ item.book.title }}
+                                </a>
+                            </h3>
+                            <p class="text-xs text-brand-plum/70 mt-0.5">By {{ item.book.author }}</p>
+                            <span class="text-xs font-bold text-brand-plum mt-2 block sm:hidden">
+                                ₹{{ item.book.price }} each
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Quantity & Subtotal Controls -->
+                    <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-brand-plum/10">
+                        <span class="text-sm font-bold text-brand-plum hidden sm:block">
+                            ₹{{ item.book.price }}
+                        </span>
+
+                        <div class="flex items-center gap-2 bg-base-200/60 rounded-lg p-1 border border-brand-plum/10">
+                            <form action="{% url 'update_cart' item.book.id %}" method="POST" class="inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="decrease" />
+                                <button type="submit" class="w-7 h-7 flex items-center justify-center rounded-md bg-base-100 text-brand-plum font-bold hover:bg-brand-coral hover:text-white transition shadow-xs">
+                                    -
+                                </button>
+                            </form>
+                            
+                            <span class="text-xs font-black text-brand-plum px-2">{{ item.quantity }}</span>
+
+                            <form action="{% url 'update_cart' item.book.id %}" method="POST" class="inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="increase" />
+                                <button type="submit" class="w-7 h-7 flex items-center justify-center rounded-md bg-base-100 text-brand-plum font-bold hover:bg-brand-coral hover:text-white transition shadow-xs">
+                                    +
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="text-right">
+                            <span class="text-base font-black text-brand-plum block">
+                                ₹{{ item.subtotal }}
+                            </span>
+                        </div>
+
+                        <form action="{% url 'remove_from_cart' item.book.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="text-brand-plum/40 hover:text-brand-coral transition p-1" title="Remove item">
+                                <!-- Lucide: Trash 2 -->
+                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="3 6h18"/>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                    <line x1="10" x2="10" y1="11" y2="17"/>
+                                    <line x1="14" x2="14" y1="11" y2="17"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Summary Card -->
+            <div class="lg:col-span-4 bg-base-100 rounded-2xl border border-brand-plum/10 p-6 shadow-xs space-y-6">
+                <h2 class="font-extrabold text-brand-plum text-lg border-b border-brand-plum/10 pb-3">Order Summary</h2>
+
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between text-brand-plum/70">
+                        <span>Items Total</span>
+                        <span class="font-bold text-brand-plum">₹{{ total_price }}</span>
+                    </div>
+                    <div class="flex justify-between text-brand-plum/70">
+                        <span>Shipping</span>
+                        <span class="font-bold text-brand-teal">FREE</span>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-brand-plum/10 flex justify-between items-baseline">
+                    <span class="font-extrabold text-brand-plum text-base">Total Amount</span>
+                    <span class="font-black text-brand-plum text-2xl">₹{{ total_price }}</span>
+                </div>
+
+                <a href="{% url 'checkout' %}" class="btn bg-brand-coral hover:bg-brand-coral/90 text-white border-none w-full rounded-xl font-bold py-3 shadow-md flex items-center justify-center gap-2">
+                    <span>Proceed to Checkout</span>
+                    <!-- Lucide: Arrow Right -->
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"/>
+                        <path d="m12 5 7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+        </div>
+        {% else %}
+        <!-- Empty Cart State -->
+        <div class="text-center py-20 bg-base-100 rounded-3xl border border-dashed border-brand-plum/20 shadow-xs flex flex-col items-center justify-center max-w-xl mx-auto">
+            <div class="w-16 h-16 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal mb-4">
+                <!-- Lucide: Shopping Bag -->
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                    <path d="M3 6h18"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+            </div>
+            <h2 class="text-xl font-bold text-brand-plum mb-2">Your cart is empty</h2>
+            <p class="text-xs sm:text-sm text-brand-plum/60 mb-6 max-w-xs">Looks like you haven't added any books to your cart yet.</p>
+            <a href="{% url 'book_list' %}" class="btn bg-brand-plum text-brand-cream hover:bg-brand-plum/90 border-none rounded-xl px-6 font-bold text-xs">
+                Explore Book Store
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

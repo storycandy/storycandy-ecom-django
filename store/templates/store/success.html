@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>StoryCandy - Payment Successful</title>
+</head>
+<body class="bg-slate-50 text-slate-800 flex items-center justify-center min-h-screen p-4">
+
+  <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8 text-center">
+    
+    <!-- Success Badge Icon -->
+    <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-extrabold text-slate-900 mb-2">Payment Successful!</h1>
+    <p class="text-sm text-slate-500 mb-6">Thank you for your order with StoryCandy. We’re preparing your books now.</p>
+
+    {% if order %}
+    <!-- Order Details Box -->
+    <div class="bg-slate-50 rounded-xl p-4 text-left text-sm space-y-2 mb-6 border border-slate-100">
+      <div class="flex justify-between">
+        <span class="text-slate-500">Order ID:</span>
+        <span class="font-bold text-slate-800">#{{ order.id }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Payment ID:</span>
+        <span class="font-mono text-xs text-slate-700">{{ payment_id|default:"rzp_test_mock" }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Total Paid:</span>
+        <span class="font-bold text-emerald-600">₹{{ order.total_amount }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Sent To:</span>
+        <span class="font-medium text-slate-800">{{ order.email }}</span>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    <div class="space-y-3">
+      <a 
+        href="{% url 'book_list' %}" 
+        class="block w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200"
+      >
+        Continue Shopping 📚
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

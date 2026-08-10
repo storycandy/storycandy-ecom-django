@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - StoryCandy{% endblock %}
+
+{% block content %}
+<div class="bg-base-100 text-brand-plum overflow-hidden">
+
+    <!-- Hero / Intro Section -->
+    <section class="relative py-16 sm:py-24 bg-gradient-to-b from-brand-teal/5 to-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-block bg-brand-teal/10 text-brand-teal font-extrabold text-xs px-3.5 py-1 rounded-full uppercase tracking-widest mb-4">
+                Redefining Children's Literacy
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-brand-plum leading-tight max-w-4xl mx-auto">
+                Changing the way children fall in love with <span class="text-brand-coral">reading.</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-brand-plum/80 max-w-3xl mx-auto leading-relaxed font-medium">
+                We believe every child deserves one magical moment with a book. Not because reading is a subject, and not because schools require it—but because stories shape imagination, curiosity, confidence, and character.
+            </p>
+        </div>
+    </section>
+
+    <!-- Our Mission & Belief Section -->
+    <section class="py-12 sm:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 text-brand-coral font-bold text-sm uppercase tracking-wider">
+                        <!-- Lucide: Sparkles -->
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                        <span>Who We Are</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black leading-tight">
+                        We aren't building another bookstore. We're building the <span class="text-brand-teal">future of childhood literacy.</span>
+                    </h2>
+                    <p class="text-brand-plum/80 leading-relaxed font-normal">
+                        Storycandy is a literacy company creating extraordinary reading experiences for children. By bringing together the world's best children's books, inspiring authors, engaging school events, and thoughtfully designed learning experiences, we're helping a generation discover something increasingly rare: <strong>The joy of reading.</strong>
+                    </p>
+                    
+                    <div class="p-6 bg-base-200/50 rounded-2xl border-l-4 border-brand-teal space-y-2">
+                        <p class="font-bold text-sm sm:text-base text-brand-plum">
+                            "Where Every Story Begins a Lifetime of Learning."
+                        </p>
+                        <p class="text-xs text-brand-plum/70 font-medium">
+                            Storycandy transforms books into unforgettable experiences through curated book fairs, world-class literature, and meaningful school partnerships.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Storycandy Visual Asset / Graphic Card -->
+                <div class="relative flex justify-center">
+                    <div class="w-full max-w-md bg-gradient-to-br from-brand-gold/20 via-brand-teal/10 to-brand-coral/20 rounded-3xl p-8 sm:p-10 border border-brand-plum/10 shadow-lg relative">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="{% static 'images/storycandy-logo.webp' %}" alt="Storycandy" class="h-16 w-auto object-contain" />
+                            <div>
+                                <h3 class="text-xl font-black text-brand-plum">Storycandy</h3>
+                                <p class="text-xs font-bold text-brand-teal uppercase tracking-widest">Sweet Stories, Big Dreams</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 text-sm font-semibold text-brand-plum/90">
+                            <li class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-brand-coral"></span> Building Readers. Building Futures.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-brand-teal"></span> Where Reading Comes Alive.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-brand-gold"></span> Inspiring Curious Minds.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-brand-plum"></span> Read. Imagine. Become.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Started Section -->
+    <section class="py-16 bg-base-200/40 border-y border-brand-plum/10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-brand-teal">How It Started</span>
+            <h2 class="text-3xl sm:text-4xl font-black">Every great idea begins with a simple observation.</h2>
+            <p class="text-base sm:text-lg text-brand-plum/80 leading-relaxed max-w-3xl mx-auto">
+                Children aren't reading less because they dislike books. They're reading less because they haven't fallen in love with the right story. We saw classrooms filled with potential, parents searching for meaningful learning experiences, and publishers creating incredible books that rarely reached the children who needed them most.
+            </p>
+            <div class="pt-4 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm font-black text-brand-plum">
+                <span class="px-4 py-2 bg-white rounded-full border border-brand-plum/10 shadow-xs">One School</span>
+                <span>•</span>
+                <span class="px-4 py-2 bg-white rounded-full border border-brand-plum/10 shadow-xs">One Child</span>
+                <span>•</span>
+                <span class="px-4 py-2 bg-white rounded-full border border-brand-plum/10 shadow-xs">One Story at a Time</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do Grid -->
+    <section class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-black">What We Do</h2>
+                <p class="text-sm sm:text-base text-brand-plum/70 mt-2 font-medium">
+                    We don't simply sell books. We create experiences. Because when reading becomes an experience, it becomes a habit.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-brand-plum/10 shadow-xs hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-brand-coral/10 text-brand-coral flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Curated School Book Fairs</h3>
+                    <p class="text-xs text-brand-plum/70 leading-relaxed">Tailored book choices that transform school campuses into vibrant literature festivals.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-brand-plum/10 shadow-xs hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-brand-teal/10 text-brand-teal flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Author Meet & Greets</h3>
+                    <p class="text-xs text-brand-plum/70 leading-relaxed">Connecting young minds directly with inspiring creators, authors, and storytellers.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-brand-plum/10 shadow-xs hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-brand-gold/20 text-brand-plum flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Reading Festivals & Events</h3>
+                    <p class="text-xs text-brand-plum/70 leading-relaxed">Interactive educational events, literary campaigns, and immersive storytelling workshops.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-2xl border border-brand-plum/10 shadow-xs hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-brand-teal/10 text-brand-teal flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Learning Kits & Collections</h3>
+                    <p class="text-xs text-brand-plum/70 leading-relaxed">Specially built reading boxes and NEP 2020-aligned literary collections for age-appropriate growth.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white p-6 rounded-2xl border border-brand-plum/10 shadow-xs hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-brand-coral/10 text-brand-coral flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">School & Parent Programs</h3>
+                    <p class="text-xs text-brand-plum/70 leading-relaxed">Collaborative partnerships designed to build a supportive ecosystem around every child.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-white p-6 rounded-2xl border border-brand-plum/10 shadow-xs hover:shadow-md transition">
+                    <div class="w-10 h-10 rounded-xl bg-brand-gold/20 text-brand-plum flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Literacy Campaigns</h3>
+                    <p class="text-xs text-brand-plum/70 leading-relaxed">Nationwide initiatives encouraging habitual reading across schools and communities.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Serve Ecosystem -->
+    <section class="py-16 bg-base-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-brand-coral">Who We Serve</span>
+            <h2 class="text-3xl sm:text-4xl font-black mt-2 mb-4">An Ecosystem Centered Around The Child</h2>
+            <p class="text-sm sm:text-base text-brand-plum/70 max-w-2xl mx-auto mb-10 font-medium">
+                Everything we do begins with one person: <strong>The Child.</strong> When parents, teachers, schools, publishers, authors, and communities come together, literacy becomes a movement.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Children</span>
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Parents</span>
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Teachers & Principals</span>
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Schools</span>
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Publishers</span>
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Authors</span>
+                <span class="px-5 py-2.5 bg-white text-brand-plum font-bold text-sm rounded-xl border border-brand-plum/10 shadow-xs">Communities</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message / Vision Banner -->
+    <section class="py-16 sm:py-20 bg-brand-plum text-white relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-snug">
+                "The future isn't built by technology alone. <br class="hidden sm:inline" />
+                <span class="text-brand-gold">It's built by imagination.</span>"
+            </h2>
+            <p class="text-sm sm:text-base text-white/80 leading-relaxed font-medium max-w-2xl mx-auto">
+                Every scientist, entrepreneur, artist, and leader—they all began with a story. If we can inspire one child to discover the joy of reading today, we help shape the world they'll build tomorrow.
+            </p>
+            <div class="pt-4">
+                <a href="/#book-fair-info" class="btn bg-brand-coral hover:bg-brand-coral/90 text-white border-none rounded-full px-8 font-bold shadow-lg">
+                    Partner With Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

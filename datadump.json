@@ -1,0 +1,644 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$xmWh09OQ4xlRBid8ljt3AV$/8B5njow6C4CvAWJu7xQ42WyVCb4vRuzO52Nq6USQrE=",
+        "last_login": "2026-08-07T18:39:17.098Z",
+        "is_superuser": true,
+        "username": "storycandy-admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "storycandy111@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-07-31T04:59:09.646Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "gexminbt5pi3ov2jev5co4m2f3lg8zq0",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hCwZaa4dO8ZyMAMUjU0Ke3KeHfbpAvdvvf-f6tA61LC2mQOI6uLsur0yyKlp9Rd8IPqfdJpqss8Rr0n-rBN3yaW1_Vo_w4KtbKtBwJCL50Dbyhlg8x9JExoPBBBoiwbJuugQ4AzOIs8ZETIsTdJjPp8AfuhOGw:1wsjWg:Vsnaj7ExSXhmuN2w2BJLrByNWIFE-NY2XCIIXTjeAKw",
+        "expire_date": "2026-08-22T16:03:58.470Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "thouiuxq3etjjoinlxi8igqs7iwe3m0a",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hCwZaa4dO8ZyMAMUjU0Ke3KeHfbpAvdvvf-f6tA61LC2mQOI6uLsur0yyKlp9Rd8IPqfdJpqss8Rr0n-rBN3yaW1_Vo_w4KtbKtBwJCL50Dbyhlg8x9JExoPBBBoiwbJuugQ4AzOIs8ZETIsTdJjPp8AfuhOGw:1wpfsf:3YaYendaBLL8gPeVZmc-BrHt8qoBQcjx32iwfktZpBs",
+        "expire_date": "2026-08-14T05:34:01.450Z"
+    }
+},
+{
+    "model": "sites.site",
+    "fields": {
+        "domain": "example.com",
+        "name": "example.com"
+    }
+},
+{
+    "model": "store.category",
+    "pk": 1,
+    "fields": {
+        "created_at": "2026-08-07T18:52:34Z",
+        "updated_at": "2026-08-07T18:52:41.665Z",
+        "name": "Fiction",
+        "slug": "fiction"
+    }
+},
+{
+    "model": "store.collection",
+    "pk": 1,
+    "fields": {
+        "created_at": "2026-08-07T18:51:56Z",
+        "updated_at": "2026-08-07T18:52:25.799Z",
+        "name": "Bestseller",
+        "slug": "bestseller",
+        "description": ""
+    }
+},
+{
+    "model": "store.collection",
+    "pk": 2,
+    "fields": {
+        "created_at": "2026-08-09T03:08:51Z",
+        "updated_at": "2026-08-09T03:09:03.886Z",
+        "name": "Popular Series",
+        "slug": "popular-series",
+        "description": ""
+    }
+},
+{
+    "model": "store.collection",
+    "pk": 3,
+    "fields": {
+        "created_at": "2026-08-09T03:09:11Z",
+        "updated_at": "2026-08-09T03:09:20.156Z",
+        "name": "India Publishing",
+        "slug": "india-publishing",
+        "description": ""
+    }
+},
+{
+    "model": "store.collection",
+    "pk": 4,
+    "fields": {
+        "created_at": "2026-08-09T03:09:28Z",
+        "updated_at": "2026-08-09T03:09:41.639Z",
+        "name": "Multilingual",
+        "slug": "multilingual",
+        "description": ""
+    }
+},
+{
+    "model": "store.collection",
+    "pk": 5,
+    "fields": {
+        "created_at": "2026-08-09T03:09:48Z",
+        "updated_at": "2026-08-09T03:09:59.512Z",
+        "name": "Activity & STEM Sets",
+        "slug": "activity-and-stem-sets",
+        "description": ""
+    }
+},
+{
+    "model": "store.book",
+    "pk": 1,
+    "fields": {
+        "created_at": "2026-08-07T04:15:51Z",
+        "updated_at": "2026-08-09T02:50:33.221Z",
+        "title": "First test book",
+        "subtitle": "",
+        "author": "test author",
+        "isbn": "11",
+        "price": "200.00",
+        "discount_price": null,
+        "stock": 1,
+        "is_available": true,
+        "binding": "paperback",
+        "pages": null,
+        "language": "English",
+        "age_group": "",
+        "theme": "",
+        "category": 1,
+        "summary": "",
+        "collections": [
+            1
+        ]
+    }
+},
+{
+    "model": "store.book",
+    "pk": 2,
+    "fields": {
+        "created_at": "2026-08-08T15:25:51Z",
+        "updated_at": "2026-08-09T02:51:43.882Z",
+        "title": "Second test book",
+        "subtitle": "",
+        "author": "test author",
+        "isbn": "123423",
+        "price": "299.00",
+        "discount_price": null,
+        "stock": 1,
+        "is_available": true,
+        "binding": "paperback",
+        "pages": null,
+        "language": "English",
+        "age_group": "",
+        "theme": "",
+        "category": 1,
+        "summary": "",
+        "collections": [
+            1
+        ]
+    }
+},
+{
+    "model": "store.bookimage",
+    "pk": 1,
+    "fields": {
+        "created_at": "2026-08-09T02:50:33.026Z",
+        "updated_at": "2026-08-09T02:50:33.238Z",
+        "book": 1,
+        "image": "books/covers/first-test-book-1786243833-1.png",
+        "alt_text": "",
+        "is_primary": false,
+        "order": 0
+    }
+},
+{
+    "model": "store.bookimage",
+    "pk": 2,
+    "fields": {
+        "created_at": "2026-08-09T02:50:33.026Z",
+        "updated_at": "2026-08-09T02:50:40.998Z",
+        "book": 1,
+        "image": "books/covers/first-test-book-1786243840-1.webp",
+        "alt_text": "",
+        "is_primary": false,
+        "order": 0
+    }
+},
+{
+    "model": "store.bookimage",
+    "pk": 3,
+    "fields": {
+        "created_at": "2026-08-09T02:51:13.566Z",
+        "updated_at": "2026-08-09T02:51:13.582Z",
+        "book": 2,
+        "image": "books/covers/second-test-book-1786243873-1.webp",
+        "alt_text": "",
+        "is_primary": false,
+        "order": 0
+    }
+},
+{
+    "model": "store.order",
+    "pk": 1,
+    "fields": {
+        "created_at": "2026-07-31T05:09:57.052Z",
+        "updated_at": "2026-08-07T04:15:51.500Z",
+        "tracking_id": "34c4851c-6272-4b63-a245-ca5d0007d692",
+        "user": null,
+        "email": "sampadparida92@gmail.com",
+        "full_name": "Sampad Sammy",
+        "shipping_address": "145 powai plazza\r\n145 powai plazza",
+        "total_amount": "200.00",
+        "paid": false,
+        "razorpay_order_id": null,
+        "razorpay_payment_id": null
+    }
+},
+{
+    "model": "store.order",
+    "pk": 2,
+    "fields": {
+        "created_at": "2026-07-31T05:31:32.686Z",
+        "updated_at": "2026-08-07T04:15:51.500Z",
+        "tracking_id": "432f5e87-6722-41c7-ae1c-27460432c970",
+        "user": null,
+        "email": "sampadparida92@gmail.com",
+        "full_name": "Sampad Sammy",
+        "shipping_address": "145 powai plazza\r\n145 powai plazza",
+        "total_amount": "200.00",
+        "paid": true,
+        "razorpay_order_id": "order_TJzlZYOl7VLbhO",
+        "razorpay_payment_id": "pay_TJzmGENbHUDUvC"
+    }
+},
+{
+    "model": "store.order",
+    "pk": 3,
+    "fields": {
+        "created_at": "2026-08-08T15:51:32.133Z",
+        "updated_at": "2026-08-08T15:55:28.686Z",
+        "tracking_id": "cc42ab9a-3a8e-45d4-bb17-855abd5439fc",
+        "user": null,
+        "email": "sampadparida92@gmail.com",
+        "full_name": "Sampad Sammy",
+        "shipping_address": "145 powai plazza",
+        "total_amount": "499.00",
+        "paid": true,
+        "razorpay_order_id": "order_TNKbSml2W7K6lD",
+        "razorpay_payment_id": "pay_TNKfKH1lA2apcr"
+    }
+},
+{
+    "model": "store.order",
+    "pk": 4,
+    "fields": {
+        "created_at": "2026-08-08T16:03:24.502Z",
+        "updated_at": "2026-08-08T16:03:57.270Z",
+        "tracking_id": "dc07dba4-ed00-465c-8012-7542707af297",
+        "user": null,
+        "email": "sampadparida92@gmail.com",
+        "full_name": "Sampad Sammy",
+        "shipping_address": "145 powai plazza",
+        "total_amount": "299.00",
+        "paid": true,
+        "razorpay_order_id": "order_TNKo0We1GrJtJW",
+        "razorpay_payment_id": "pay_TNKoFjGNkVnnP9"
+    }
+},
+{
+    "model": "store.orderitem",
+    "pk": 1,
+    "fields": {
+        "created_at": "2026-08-07T04:15:51.511Z",
+        "updated_at": "2026-08-07T04:15:51.521Z",
+        "order": 1,
+        "book": 1,
+        "price": "200.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "store.orderitem",
+    "pk": 2,
+    "fields": {
+        "created_at": "2026-08-07T04:15:51.511Z",
+        "updated_at": "2026-08-07T04:15:51.521Z",
+        "order": 2,
+        "book": 1,
+        "price": "200.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "store.orderitem",
+    "pk": 3,
+    "fields": {
+        "created_at": "2026-08-08T15:51:32.147Z",
+        "updated_at": "2026-08-08T15:51:32.147Z",
+        "order": 3,
+        "book": 1,
+        "price": "200.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "store.orderitem",
+    "pk": 4,
+    "fields": {
+        "created_at": "2026-08-08T15:51:32.156Z",
+        "updated_at": "2026-08-08T15:51:32.156Z",
+        "order": 3,
+        "book": 2,
+        "price": "299.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "store.orderitem",
+    "pk": 5,
+    "fields": {
+        "created_at": "2026-08-08T16:03:24.516Z",
+        "updated_at": "2026-08-08T16:03:24.516Z",
+        "order": 4,
+        "book": 2,
+        "price": "299.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "account.emailaddress",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "storycandy-admin"
+        ],
+        "email": "storycandy111@gmail.com",
+        "verified": false,
+        "primary": false
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2026-07-31T05:02:44.564Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2026-08-07T18:40:44.751Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Cover image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2026-08-07T18:44:27.787Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Cover image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2026-08-07T18:52:25.799Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "collection"
+        ],
+        "object_id": "1",
+        "object_repr": "Bestseller",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2026-08-07T18:52:41.669Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "category"
+        ],
+        "object_id": "1",
+        "object_repr": "Fiction",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2026-08-07T18:53:04.348Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Collections\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2026-08-08T15:05:39.751Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Cover image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2026-08-08T15:09:53.544Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Cover image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2026-08-08T15:27:18.343Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "2",
+        "object_repr": "Second test book",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2026-08-08T15:30:41.291Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "2",
+        "object_repr": "Second test book",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Cover image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2026-08-09T02:50:41.361Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "1",
+        "object_repr": "First test book",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"book image\", \"object\": \"Image for First test book (Gallery)\"}}, {\"added\": {\"name\": \"book image\", \"object\": \"Image for First test book (Gallery)\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2026-08-09T02:51:14.187Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "2",
+        "object_repr": "Second test book",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"book image\", \"object\": \"Image for Second test book (Gallery)\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2026-08-09T02:51:43.901Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "book"
+        ],
+        "object_id": "2",
+        "object_repr": "Second test book",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2026-08-09T03:09:03.899Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "collection"
+        ],
+        "object_id": "2",
+        "object_repr": "Popular Series",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2026-08-09T03:09:20.168Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "collection"
+        ],
+        "object_id": "3",
+        "object_repr": "India Publishing",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2026-08-09T03:09:41.639Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "collection"
+        ],
+        "object_id": "4",
+        "object_repr": "Multilingual",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2026-08-09T03:09:59.512Z",
+        "user": [
+            "storycandy-admin"
+        ],
+        "content_type": [
+            "store",
+            "collection"
+        ],
+        "object_id": "5",
+        "object_repr": "Activity & STEM Sets",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+}
+]

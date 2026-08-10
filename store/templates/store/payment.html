@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>StoryCandy - Secure Payment</title>
+</head>
+<body class="bg-slate-50 text-slate-800 flex items-center justify-center min-h-screen p-4">
+
+  <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8 text-center">
+    <div class="inline-flex items-center justify-center w-12 h-12 bg-pink-100 rounded-full text-pink-600 mb-4">
+      🔒
+    </div>
+    <h2 class="text-2xl font-extrabold mb-2 text-slate-900">Initiating Payment</h2>
+    <p class="text-sm text-slate-500 mb-6">Order #{{ order.id }} • ₹{{ order.total_amount }}</p>
+
+    <button 
+      id="rzp-button" 
+      class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition"
+    >
+      Open Payment Gateway
+    </button>
+  </div>
+
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var options = {
+      "key": "{{ razorpay_key_id }}", 
+      "amount": "{{ amount_in_paise }}", 
+      "currency": "{{ currency }}",
+      "name": "StoryCandy",
+      "description": "Book Purchase Order #{{ order.id }}",
+      "order_id": "{{ razorpay_order_id }}",
+      "callback_url": "{{ callback_url }}",
+      "prefill": {
+        "name": "{{ order.full_name }}",
+        "email": "{{ order.email }}"
+      },
+      "theme": {
+        "color": "#DB2777"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+
+    // Automatically trigger modal when page loads
+    window.onload = function() {
+      rzp1.open();
+    };
+
+    // Manual fallback button in case popups are blocked
+    document.getElementById('rzp-button').onclick = function(e){
+      rzp1.open();
+      e.preventDefault();
+    }
+  </script>
+
+</body>
+</html>
