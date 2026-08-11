@@ -39,7 +39,6 @@ def home_view(request):
         'collections': Collection.objects.all(),
         'categories': Category.objects.all(),
     }
-    messages.success(request, 'Your proposal request has been submitted successfully!')
     return render(request, 'home.html', context)
 
 def about_view(request):    
