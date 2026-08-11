@@ -45,7 +45,7 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                <a href="#featured-books" class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-md sm:btn-lg rounded-full px-8 shadow-md transition">
+                <a href="#bestseller-collection" class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-md sm:btn-lg rounded-full px-8 shadow-md transition">
                     Explore Books
                 </a>
                 <a href="#book-fair-info" class="btn border-2 border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white btn-md sm:btn-lg rounded-full px-8 transition bg-base-100/80 backdrop-blur-sm">
@@ -246,36 +246,36 @@
             <h3 class="text-xl font-extrabold text-brand-plum">Host a Book Fair</h3>
             <p class="text-xs text-brand-plum/70 mb-6">Request a custom proposal for your school</p>
             
-            <form action="#" method="POST" class="space-y-4">
+            <form action="{% url 'book_fair_proposal' %}" method="POST" class="space-y-4">
                 {% csrf_token %}
                 <div>
                     <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">School Name</label>
-                    <input type="text" placeholder="e.g. Delhi Public School" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
+                    <input type="text" name="school_name" placeholder="e.g. Delhi Public School" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">City</label>
-                        <select class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
-                            <option>Mumbai</option>
-                            <option>Pune</option>
-                            <option>Other</option>
+                        <select name="city" class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">Board</label>
-                        <select class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
-                            <option>CBSE</option>
-                            <option>ICSE</option>
-                            <option>IB / Cambridge</option>
-                            <option>State Board</option>
+                        <select name="board" class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
+                            <option value="CBSE">CBSE</option>
+                            <option value="ICSE">ICSE</option>
+                            <option value="IB / Cambridge">IB / Cambridge</option>
+                            <option value="State Board">State Board</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">Email / Mobile</label>
-                    <input type="text" placeholder="principal@school.edu.in" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
+                    <input type="text" name="contact_info" placeholder="principal@school.edu.in" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
                 </div>
 
                 <button type="submit" class="btn bg-brand-coral hover:bg-brand-coral/90 text-white border-none w-full rounded-xl font-bold mt-2 shadow-md">

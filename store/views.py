@@ -11,6 +11,7 @@ from django.contrib import messages
 from .models import Order, OrderItem, Book
 from .utils.magiclink import send_order_magic_link, verify_magic_token
 from django.db.models import Q
+from django.core.mail import send_mail
 
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
@@ -38,6 +39,7 @@ def home_view(request):
         'collections': Collection.objects.all(),
         'categories': Category.objects.all(),
     }
+    messages.success(request, 'Your proposal request has been submitted successfully!')
     return render(request, 'home.html', context)
 
 def about_view(request):    
@@ -387,3 +389,35 @@ def order_magic_access(request, token):
 
     order = get_object_or_404(Order, tracking_id=tracking_id)
     return render(request, 'store/order_detail.html', {'order': order})
+
+def book_fair_proposal(request):
+    if request.method == 'POST':
+        school_name = request.POST.get('school_name')
+        city = request.POST.get('city')
+        board = request.POST.get('board')
+        contact_info = request.POST.get('contact_info')
+
+        subject = f"New Book Fair Proposal Request: {school_name}"
+        message = (
+            f"You have received a new Book Fair proposal request:\n\n"
+            f"School Name: {school_name}\n"
+            f"City: {city}\n"
+            f"Board: {board}\n"
+            f"Contact Info (Email/Mobile): {contact_info}\n"
+        )
+        
+        recipient_list = ['Storycandy111@gmail.com']
+
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                recipient_list,
+                fail_silently=False,
+            )
+            messages.success(request, 'Your proposal request has been submitted successfully!')
+        except Exception as e:
+            messages.error(request, 'Failed to send request. Please try again.')
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))

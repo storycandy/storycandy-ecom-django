@@ -189,6 +189,7 @@ INTERNAL_IPS = [
 ]
 
 NPM_BIN_PATH = r"C:\nvm4w\nodejs\npm.cmd"
+# NPM_BIN_PATH = "/usr/bin/npm"
 
 # Email Settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')

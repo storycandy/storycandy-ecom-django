@@ -37,7 +37,7 @@
             <span class="hidden md:inline">NEP 2020 Aligned | 300+ School Book Fairs Conducted</span>
             <span class="mx-auto md:mx-0">Free Shipping on Orders Above ₹500</span>
             <div class="hidden md:flex items-center gap-4 text-xs">
-                <span>Helpline: +91 98765 43210</span>
+                <span>Helpline: +91 98191 33166</span>
                 <span>|</span>
                 <a href="#book-fair-info" class="underline hover:text-brand-gold transition">For Schools &
                     Principals</a>
@@ -178,6 +178,8 @@
                         <li><a href="{% url 'book_list' %}?collection=3" class="hover:text-white transition">India Publishing</a></li>
                         <li><a href="{% url 'book_list' %}?collection=4" class="hover:text-white transition">Multilingual Collection</a></li>
                         <li><a href="{% url 'book_list' %}?collection=5" class="hover:text-white transition">Activity & STEM Sets</a></li>
+                        <li><a href="{% url 'book_list' %}" class="hover:text-white transition">All Books</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white transition">About</a></li>
                     </ul>
                 </div>
 
@@ -199,8 +201,8 @@
                     <h4 class="text-brand-gold font-bold text-sm uppercase tracking-wider mb-4">Contact Us</h4>
                     <ul class="space-y-2.5 text-sm text-brand-cream/70">
                         <li><strong class="text-white font-semibold">Hubs:</strong> Mumbai & Pune</li>
-                        <li><strong class="text-white font-semibold">Email:</strong> contact@storycandy.in</li>
-                        <li><strong class="text-white font-semibold">Schools Helpline:</strong> +91 98765 43210</li>
+                        <li><strong class="text-white font-semibold">Email:</strong> contact@storycandy.co</li>
+                        <li><strong class="text-white font-semibold">Schools Helpline:</strong> +91 98191 33166</li>
                         <li class="pt-2">
                             <span
                                 class="inline-block text-xs bg-brand-teal/20 text-brand-teal px-3 py-1 rounded-md border border-brand-teal/40 font-bold">
@@ -224,6 +226,36 @@
             </div>
         </div>
     </footer>
+
+    <!-- Global Alert Messages -->
+    {% if messages %}
+    <div class="fixed top-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full" id="toast-container">
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success text-white bg-emerald-600{% elif message.tags == 'error' %}alert-error text-white bg-rose-600{% else %}alert-info text-white bg-sky-600{% endif %} shadow-lg rounded-xl flex justify-between items-center p-4 transition-all duration-300">
+            <div class="flex items-center gap-2">
+            {% if message.tags == 'success' %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {% endif %}
+            <span class="text-sm font-semibold">{{ message }}</span>
+            </div>
+            <button onclick="this.parentElement.remove()" class="btn btn-ghost btn-xs text-white hover:bg-white/20">✕</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Auto-dismiss script (hides after 5 seconds) -->
+    <script>
+        setTimeout(() => {
+        const container = document.getElementById('toast-container');
+        if (container) {
+            container.style.opacity = '0';
+            setTimeout(() => container.remove(), 300);
+        }
+        }, 5000);
+    </script>
+    {% endif %}
 
     {% block extra_js %}{% endblock %}
 

@@ -17,4 +17,6 @@ urlpatterns = [
     path('payment/', views.payment_view, name='payment'),    
     path('payment-success/', views.payment_success, name='payment_success'),
     path('orders/magic/<str:token>/', views.order_magic_access, name='order_magic_access'),
+
+    path('book-fair-proposal/', views.book_fair_proposal, name='book_fair_proposal'),
 ]
