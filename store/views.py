@@ -405,7 +405,7 @@ def book_fair_proposal(request):
             f"Contact Info (Email/Mobile): {contact_info}\n"
         )
         
-        recipient_list = ['Storycandy111@gmail.com']
+        recipient_list = ['Storycandy1111@gmail.com']
 
         try:
             send_mail(
