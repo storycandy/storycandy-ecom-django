@@ -10,6 +10,7 @@ from .cart import Cart
 from django.contrib import messages
 from .models import Order, OrderItem, Book
 from .utils.magiclink import send_order_magic_link, verify_magic_token
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.core.mail import send_mail
 
@@ -81,11 +82,18 @@ def book_list(request):
     if age_group:
         books = books.filter(age_group=age_group)
 
+    # Pagination
+    paginator = Paginator(books.distinct(), 30)  # 30 books per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'books': books.distinct(),
+        'books': page_obj,  # Passing page_obj as 'books' keeps your template loop intact
+        'page_obj': page_obj,
+        'is_paginated': page_obj.has_other_pages(),
         'categories': Category.objects.all(),
         'collections': Collection.objects.all(),
-        'active_collection': active_collection,  # Safely passes None or the Collection instance
+        'active_collection': active_collection,
         'language_choices': Book.LANGUAGE_CHOICES,
         'age_group_choices': Book.AGE_GROUP_CHOICES,
     }

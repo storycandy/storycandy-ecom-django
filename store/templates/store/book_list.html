@@ -161,6 +161,29 @@
                         </div>
                     {% endfor %}
                 </div>
+
+                <!-- Pagination Controls -->
+                {% if is_paginated %}
+                    <div class="flex justify-center mt-8 sm:mt-12">
+                        <div class="join">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="join-item btn bg-base-100 border-brand-plum/20 text-brand-plum hover:bg-brand-coral hover:text-white hover:border-brand-coral">«</a>
+                            {% else %}
+                                <button class="join-item btn bg-base-100 border-brand-plum/20 text-brand-plum/30 cursor-not-allowed" disabled>«</button>
+                            {% endif %}
+
+                            <button class="join-item btn bg-base-100 border-brand-plum/20 text-brand-plum font-bold pointer-events-none">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </button>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="join-item btn bg-base-100 border-brand-plum/20 text-brand-plum hover:bg-brand-coral hover:text-white hover:border-brand-coral">»</a>
+                            {% else %}
+                                <button class="join-item btn bg-base-100 border-brand-plum/20 text-brand-plum/30 cursor-not-allowed" disabled>»</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
             </main>
 
         </div>

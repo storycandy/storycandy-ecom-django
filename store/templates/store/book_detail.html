@@ -88,9 +88,11 @@
                         {{ book.title }}
                     </h1>
 
-                    <p class="text-sm sm:text-base text-brand-plum/70 font-medium">
-                        By <span class="text-brand-plum font-bold underline decoration-brand-plum/20 underline-offset-4">{{ book.author }}</span>
-                    </p>
+                    {% if book.author %}
+                        <p class="text-sm sm:text-base text-brand-plum/70 font-medium">
+                            By <span class="text-brand-plum font-bold underline decoration-brand-plum/20 underline-offset-4">{{ book.author }}</span>
+                        </p>
+                    {% endif %}
 
                     <!-- Pricing Display -->
                     <div class="flex items-baseline gap-3 pt-2">
@@ -110,7 +112,7 @@
                 <div class="space-y-2">
                     <h2 class="text-xs font-extrabold uppercase tracking-wider text-brand-plum/50">Overview</h2>
                     <p class="text-sm sm:text-base text-brand-plum/80 leading-relaxed font-normal">
-                        {{ book.description|default:"Discover an engaging read designed to spark imagination, support literacy growth, and build reading confidence for young learners." }}
+                        {{ book.summary|default:"Discover an engaging read designed to spark imagination, support literacy growth, and build reading confidence for young learners." }}
                     </p>
                 </div>
 
