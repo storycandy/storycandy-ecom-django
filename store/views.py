@@ -16,6 +16,34 @@ from django.core.mail import send_mail
 
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
+edu_categories = [
+        {"id": 17, "name": "Prime Math"},
+        {"id": 18, "name": "Active English"},
+        {"id": 19, "name": "Active Grammar"},
+        {"id": 20, "name": "Active English K"},
+        {"id": 21, "name": "Active Math"},
+        {"id": 22, "name": "Alpha Grammar"},
+        {"id": 23, "name": "Alpha Math"},
+        {"id": 24, "name": "Bookflix"},
+        {"id": 25, "name": "I Can"},
+        {"id": 26, "name": "Literacy Pro"},
+        {"id": 27, "name": "Mathpro"},
+        {"id": 28, "name": "World Of English"},
+        {"id": 29, "name": "PR1ME K"},
+        {"id": 30, "name": "Short Reads"},
+        {"id": 31, "name": "Start Smart"},
+        {"id": 32, "name": "Atlas"},
+        {"id": 33, "name": "Go Grammar"},
+        {"id": 34, "name": "The World Around Us"},
+        {"id": 35, "name": "Dictionary"},
+        {"id": 36, "name": "Spelling Success"},
+        {"id": 37, "name": "Short Reads Plus"},
+        {"id": 38, "name": "Primary Writing"},
+        {"id": 39, "name": "Picture Composition"},
+        {"id": 40, "name": "Comprehension Strategies"},
+        {"id": 41, "name": "Supplementary Reading Programme"},
+    ]
+
 def home_view(request):
     # Retrieve collections using iexact on name or slug for safety
     bestseller_books = Book.objects.filter(
@@ -39,6 +67,7 @@ def home_view(request):
         'india_publishing_books': india_publishing_books,
         'collections': Collection.objects.all(),
         'categories': Category.objects.all(),
+        'edu_categories' : edu_categories,
     }
     return render(request, 'home.html', context)
 

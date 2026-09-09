@@ -92,6 +92,129 @@
     </div>
 </section>
 
+<!-- 1. ADD SWIPER CSS IN YOUR <head> OR AT THE TOP -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- 2. TAILWIND + SWIPER HTML LAYOUT -->
+<section class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+        <div>
+            <h2 class="text-3xl font-extrabold text-[#3F1122] tracking-tight">Products</h2>
+            <p class="text-gray-500 text-base mt-1 font-medium">Explore our innovative Educational resources</p>
+        </div>
+        <a href="{% url 'book_list' %}" class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-[#E30066] hover:bg-[#c40057] rounded-full shadow-sm hover:shadow-md transition-all duration-200">
+            View More
+        </a>
+    </div>
+
+    <!-- Swiper Slider Container -->
+    <div class="relative group px-2">
+        <div class="swiper category-swiper w-full py-4 !overflow-visible">
+            <div class="swiper-wrapper">
+                {% for category in edu_categories %}
+                <div class="swiper-slide h-auto">
+                    <a href="{% url 'book_list' %}?category={{ category.id }}" 
+                       class="group/card relative flex flex-col justify-between h-40 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] overflow-hidden">
+                        
+                        <!-- Top Accent Line -->
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1EA896] to-[#E30066]"></div>
+
+                        <!-- Category Name with Smart Word Handling -->
+                        <div class="flex-1 flex flex-col justify-center leading-snug">
+                            {% with words=category.name.split %}
+                                {% if words|length == 1 or words.0|length == 1 %}
+                                    <!-- Single-word OR 1-letter first word (e.g. "Bookflix", "I Can"): Highlight entire name -->
+                                    <span class="text-xl font-extrabold text-brand-coral tracking-tight">
+                                        {{ category.name }}
+                                    </span>
+                                {% else %}
+                                    <!-- Standard multi-word (e.g. "Active Grammar", "Prime Math") -->
+                                    <span class="text-xl uppercase tracking-wider font-semibold text-[#1EA896]">
+                                        {{ words.0 }}
+                                    </span>
+                                    <span class="text-xl font-extrabold text-brand-coral tracking-tight mt-0.5">
+                                        {% for word in words|slice:"1:" %}{{ word }}{% if not forloop.last %} {% endif %}{% endfor %}
+                                    </span>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+
+                        <!-- Card Footer Indicator -->
+                        <div class="flex items-center justify-between pt-2">
+                            <span class="text-xs font-semibold text-[#1EA896]">Explore</span>
+                            
+                            <!-- Action Button -->
+                            <div class="w-7 h-7 rounded-full bg-gray-50 text-[#1EA896] group-hover/card:bg-[#FF6B35] group-hover/card:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                                <svg class="w-3.5 h-3.5 transform group-hover/card:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Custom Navigation Buttons -->
+        <button class="swiper-button-prev-custom absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button class="swiper-button-next-custom absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new Swiper('.category-swiper', {
+            slidesPerView: 1.2,
+            spaceBetween: 16,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom',
+            },
+            breakpoints: {
+                480: { slidesPerView: 2, spaceBetween: 16 },
+                768: { slidesPerView: 3, spaceBetween: 20 },
+                1024: { slidesPerView: 4, spaceBetween: 24 },
+            },
+        });
+    });
+</script>
+
+<!-- 3. ADD SWIPER JS AND INITIALIZE IT -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new Swiper('.category-swiper', {
+            slidesPerView: 2,
+            spaceBetween: 16,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 24,
+                },
+            },
+        });
+    });
+</script>
+
 <!-- ==================== 3. SHOP BY AGE ==================== -->
 <section class="py-16 bg-base-200/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
