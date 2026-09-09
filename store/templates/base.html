@@ -35,7 +35,7 @@
     <div class="bg-brand-plum text-brand-cream text-xs sm:text-sm py-2.5 px-4 text-center font-medium tracking-wide">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <span class="hidden md:inline">NEP 2020 Aligned | 300+ School Book Fairs Conducted</span>
-            <span class="mx-auto md:mx-0">Free Shipping on Orders Above ₹500</span>
+            <span class="mx-auto md:mx-0">Free Shipping on Orders Above ₹1000</span>
             <div class="hidden md:flex items-center gap-4 text-xs">
                 <span>Helpline: +91 98191 33166</span>
                 <span>|</span>
@@ -67,7 +67,7 @@
                 </a>
             </div>
 
-            <!-- Search Bar (Perfectly Centered Absolutely) -->
+            <!-- Search Bar (Perfectly Centered Absolutely - Desktop) -->
             <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-full max-w-md">
                 <form action="{% url 'book_list' %}" method="GET" class="w-full relative flex items-center">
                     <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search by title, author, or age..."
@@ -119,11 +119,122 @@
                         {{ cart_count|default:0 }}
                     </span>
                 </a>
+
+                <!-- Mobile Menu Toggle Button (Visible on Mobile/Tablet) -->
+                <button id="mobile-menu-open" type="button" aria-label="Open Menu"
+                    class="btn btn-ghost btn-circle text-brand-plum md:hidden">
+                    <!-- Lucide: Menu -->
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
             </div>
 
         </div>
     </div>
 </header>
+
+<!-- Mobile Right Slide-Over Sidebar Container -->
+<div id="mobile-sidebar-container" class="fixed inset-0 z-50 pointer-events-none">
+    
+    <!-- Dark Backdrop -->
+    <div id="mobile-sidebar-backdrop" 
+        class="fixed inset-0 bg-brand-plum/40 backdrop-blur-xs opacity-0 transition-opacity duration-300 ease-in-out pointer-events-none"></div>
+
+    <!-- Right Drawer Content -->
+    <aside id="mobile-sidebar"
+        class="fixed top-0 right-0 bottom-0 w-full max-w-xs bg-base-100 shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-in-out pointer-events-auto">
+        
+        <!-- Sidebar Header -->
+        <div class="flex items-center justify-between p-5 border-b border-base-200">
+            <span class="text-lg font-black text-brand-plum">Navigation</span>
+            <button id="mobile-menu-close" aria-label="Close Menu"
+                class="btn btn-ghost btn-circle btn-sm text-brand-plum/70 hover:text-brand-plum">
+                <!-- Lucide: X -->
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Sidebar Body -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-6">
+            
+            <!-- Mobile Search Bar -->
+            <form action="{% url 'book_list' %}" method="GET" class="relative flex items-center">
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search books, authors..."
+                    class="input input-bordered input-sm w-full pr-10 rounded-full bg-base-200/50 border-base-300 focus:bg-base-100 focus:border-brand-teal focus:outline-none" />
+                <button type="submit" aria-label="Search"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-plum/50 hover:text-brand-teal">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-col space-y-1">
+                <a href="{% url 'book_list' %}" 
+                   class="flex items-center px-4 py-3 text-base font-bold text-brand-plum hover:bg-brand-teal/10 hover:text-brand-teal rounded-xl transition-colors">
+                    Books
+                </a>
+                <a href="{% url 'about' %}" 
+                   class="flex items-center px-4 py-3 text-base font-bold text-brand-plum hover:bg-brand-teal/10 hover:text-brand-teal rounded-xl transition-colors">
+                    About
+                </a>
+            </nav>
+
+            <div class="pt-4 border-t border-base-200">
+                <!-- Host a Book Fair Button -->
+                <a href="/#book-fair-info"
+                    class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none w-full rounded-full font-bold shadow-xs flex items-center justify-center">
+                    Host a Book Fair
+                </a>
+            </div>
+
+        </div>
+    </aside>
+</div>
+
+<!-- JavaScript Controls -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const openBtn = document.getElementById('mobile-menu-open');
+        const closeBtn = document.getElementById('mobile-menu-close');
+        const container = document.getElementById('mobile-sidebar-container');
+        const sidebar = document.getElementById('mobile-sidebar');
+        const backdrop = document.getElementById('mobile-sidebar-backdrop');
+
+        function openSidebar() {
+            container.classList.remove('pointer-events-none');
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            backdrop.classList.add('opacity-100', 'pointer-events-auto');
+            sidebar.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                container.classList.add('pointer-events-none');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        openBtn?.addEventListener('click', openSidebar);
+        closeBtn?.addEventListener('click', closeSidebar);
+        backdrop?.addEventListener('click', closeSidebar);
+    });
+</script>
 
     <!-- ==================== MESSAGES / ALERTS ==================== -->
     {% if messages %}

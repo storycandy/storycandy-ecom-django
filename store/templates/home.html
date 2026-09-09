@@ -95,8 +95,7 @@
 <!-- 1. ADD SWIPER CSS IN YOUR <head> OR AT THE TOP -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-<!-- 2. TAILWIND + SWIPER HTML LAYOUT -->
-<section class="max-w-7xl mx-auto px-4 py-10">
+<section class="max-w-7xl mx-auto px-4 py-10 overflow-hidden">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
         <div>
             <h2 class="text-3xl font-extrabold text-[#3F1122] tracking-tight">Products</h2>
@@ -108,8 +107,9 @@
     </div>
 
     <!-- Swiper Slider Container -->
-    <div class="relative group px-2">
-        <div class="swiper category-swiper w-full py-4 !overflow-visible">
+    <div class="relative group">
+        <!-- Overflow hidden on mobile to stop horizontal page scrolling, visible on larger screens -->
+        <div class="swiper category-swiper w-full py-4 overflow-hidden sm:!overflow-visible">
             <div class="swiper-wrapper">
                 {% for category in edu_categories %}
                 <div class="swiper-slide h-auto">
@@ -123,13 +123,13 @@
                         <div class="flex-1 flex flex-col justify-center leading-snug">
                             {% with words=category.name.split %}
                                 {% if words|length == 1 or words.0|length == 1 %}
-                                    <!-- Single-word OR 1-letter first word (e.g. "Bookflix", "I Can"): Highlight entire name -->
+                                    <!-- Single-word OR 1-letter first word -->
                                     <span class="text-xl font-extrabold text-brand-coral tracking-tight">
                                         {{ category.name }}
                                     </span>
                                 {% else %}
-                                    <!-- Standard multi-word (e.g. "Active Grammar", "Prime Math") -->
-                                    <span class="text-xl uppercase tracking-wider font-semibold text-[#1EA896]">
+                                    <!-- Standard multi-word -->
+                                    <span class="text-xs uppercase tracking-wider font-semibold text-[#1EA896]">
                                         {{ words.0 }}
                                     </span>
                                     <span class="text-xl font-extrabold text-brand-coral tracking-tight mt-0.5">
@@ -156,12 +156,12 @@
             </div>
         </div>
 
-        <!-- Custom Navigation Buttons -->
-        <button class="swiper-button-prev-custom absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        <!-- Custom Navigation Buttons (Kept inside screen bounds on mobile) -->
+        <button class="swiper-button-prev-custom absolute left-1 sm:-left-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-11 sm:h-11 bg-white/90 sm:bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
-        <button class="swiper-button-next-custom absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        <button class="swiper-button-next-custom absolute right-1 sm:-right-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-11 sm:h-11 bg-white/90 sm:bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </button>
     </div>
 </section>
