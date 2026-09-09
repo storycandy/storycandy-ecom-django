@@ -9,9 +9,17 @@
             <div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight flex items-center gap-2">
                     <span>Storycandy Store</span>
+
                     {% if active_collection %}
                         <span class="text-brand-plum/40 font-normal">&mdash;</span>
                         <span class="text-brand-teal font-extrabold">{{ active_collection.name }}</span>
+                    {% elif request.GET.category %}
+                        {% for cat in categories %}
+                            {% if request.GET.category == cat.id|stringformat:"s" %}
+                                <span class="text-brand-plum/40 font-normal">&mdash;</span>
+                                <span class="text-brand-teal font-extrabold">{{ cat.name }}</span>
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
                 </h1>
                 <p class="text-xs sm:text-sm text-brand-plum/70 mt-0.5 font-medium">Explore our complete collection of curated books for young readers</p>
