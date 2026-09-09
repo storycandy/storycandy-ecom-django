@@ -120,9 +120,9 @@
                     </span>
                 </a>
 
-                <!-- Mobile Menu Toggle Button (Visible only on screens below md: 768px) -->
+                <!-- Mobile Menu Toggle Button (Strictly hidden on desktop via hidden md:!hidden) -->
                 <button id="mobile-menu-open" type="button" aria-label="Open Menu"
-                    class="btn btn-ghost btn-circle text-brand-plum md:hidden">
+                    class="btn btn-ghost btn-circle text-brand-plum hidden md:!hidden">
                     <!-- Lucide: Menu -->
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -138,8 +138,11 @@
 </header>
 
 <!-- Mobile Right Slide-Over Sidebar Container (Hidden on Desktop) -->
-<div id="mobile-sidebar-container" class="fixed inset-0 z-50 pointer-events-none md:hidden" aria-hidden="true">
-    
+<div id="mobile-sidebar-container" 
+     class="fixed inset-0 z-50 pointer-events-none hidden md:!hidden" 
+     style="display: none;" 
+     aria-hidden="true">
+
     <!-- Dark Backdrop -->
     <div id="mobile-sidebar-backdrop" 
         class="fixed inset-0 bg-brand-plum/40 backdrop-blur-xs opacity-0 transition-opacity duration-300 ease-in-out pointer-events-none"></div>
@@ -205,45 +208,53 @@
 
 <!-- JavaScript Controls -->
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const openBtn = document.getElementById('mobile-menu-open');
-        const closeBtn = document.getElementById('mobile-menu-close');
-        const container = document.getElementById('mobile-sidebar-container');
-        const sidebar = document.getElementById('mobile-sidebar');
-        const backdrop = document.getElementById('mobile-sidebar-backdrop');
+document.addEventListener('DOMContentLoaded', () => {
+    const openBtn = document.getElementById('mobile-menu-open');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const container = document.getElementById('mobile-sidebar-container');
+    const sidebar = document.getElementById('mobile-sidebar');
+    const backdrop = document.getElementById('mobile-sidebar-backdrop');
 
-        function openSidebar() {
-            if (window.innerWidth >= 768) return; // Safeguard against trigger on desktop
-            container.classList.remove('pointer-events-none');
-            container.setAttribute('aria-hidden', 'false');
+    function openSidebar() {
+        if (window.innerWidth >= 768) return; // Ignore on desktop
+
+        container.style.display = 'block'; // Directly show container
+        container.classList.remove('pointer-events-none');
+        container.setAttribute('aria-hidden', 'false');
+
+        // Small timeout allows CSS transitions to animate smoothly
+        setTimeout(() => {
             backdrop.classList.remove('opacity-0', 'pointer-events-none');
             backdrop.classList.add('opacity-100', 'pointer-events-auto');
             sidebar.classList.remove('translate-x-full');
-            document.body.style.overflow = 'hidden';
+        }, 20);
+
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+        sidebar.classList.add('translate-x-full');
+        backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+
+        setTimeout(() => {
+            container.classList.add('pointer-events-none');
+            container.setAttribute('aria-hidden', 'true');
+            container.style.display = 'none'; // Force hide on completion
+            document.body.style.overflow = '';
+        }, 300);
+    }
+
+    openBtn?.addEventListener('click', openSidebar);
+    closeBtn?.addEventListener('click', closeSidebar);
+    backdrop?.addEventListener('click', closeSidebar);
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            closeSidebar();
         }
-
-        function closeSidebar() {
-            sidebar.classList.add('translate-x-full');
-            backdrop.classList.remove('opacity-100', 'pointer-events-auto');
-            backdrop.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                container.classList.add('pointer-events-none');
-                container.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        openBtn?.addEventListener('click', openSidebar);
-        closeBtn?.addEventListener('click', closeSidebar);
-        backdrop?.addEventListener('click', closeSidebar);
-
-        // Auto-close sidebar and restore body scroll if resized to desktop viewport
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                closeSidebar();
-            }
-        });
     });
+});
 </script>
 
     <!-- ==================== MESSAGES / ALERTS ==================== -->

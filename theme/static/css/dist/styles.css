@@ -4029,6 +4029,9 @@
     .md\:mx-0 {
       margin-inline: 0px;
     }
+    .md\:\!hidden {
+      display: none !important;
+    }
     .md\:flex {
       display: flex;
     }
