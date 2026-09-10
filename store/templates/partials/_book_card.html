@@ -57,8 +57,8 @@
                 {% endif %}
             </div>
 
-            <!-- Functional Add to Cart Form -->
-            <form action="{% url 'add_to_cart' book.id %}" method="POST" class="add-to-cart-form">
+            <!-- Functional Add to Cart Form for Books -->
+            <form action="{% url 'add_to_cart' 'book' book.id %}" method="POST" class="add-to-cart-form">
                 {% csrf_token %}
                 <input type="hidden" name="quantity" value="1" />
                 <button type="submit" class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-xs sm:btn-sm rounded-lg px-3">

@@ -122,7 +122,7 @@
                 <div class="space-y-3 pt-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <!-- Add To Cart Form -->
-                        <form action="{% url 'add_to_cart' book.id %}" method="POST" class="add-to-cart-form">
+                        <form action="{% url 'add_to_cart' 'book' book.id %}" method="POST" class="add-to-cart-form">
                             {% csrf_token %}
                             <input type="hidden" name="quantity" value="1" />
                             <button type="submit"
@@ -139,7 +139,7 @@
                         </form>
 
                         <!-- Buy Now Form (Direct Checkout) -->
-                        <form action="{% url 'add_to_cart' book.id %}" method="POST" class="buy-now-form">
+                        <form action="{% url 'add_to_cart' 'book' book.id %}" method="POST" class="buy-now-form">
                             {% csrf_token %}
                             <input type="hidden" name="quantity" value="1" />
                             <input type="hidden" name="direct_checkout" value="1" />

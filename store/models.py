@@ -6,6 +6,10 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+
+
 
 class TimeStampedModel(models.Model):
     """
@@ -51,28 +55,52 @@ class Collection(TimeStampedModel):
         return self.name
     
 
-def book_cover_upload_path(instance, filename):
-    # Determine the title whether instance is a Book or BookImage inline
-    if hasattr(instance, 'book') and instance.book:
-        title = instance.book.title
+# def book_cover_upload_path(instance, filename):
+#     # Determine the title whether instance is a Book or BookImage inline
+#     if hasattr(instance, 'book') and instance.book:
+#         title = instance.book.title
+#     else:
+#         title = getattr(instance, 'title', 'untitled')
+
+#     slug = slugify(title) or 'book'
+    
+#     # Extract file extension
+#     ext = filename.split('.')[-1] if '.' in filename else ''
+    
+#     # Generate a unique timestamp (e.g., 1735689600)
+#     timestamp = int(time.time())
+    
+#     # Get image index/order if available on BookImage model, fallback to 1
+#     order = getattr(instance, 'order', getattr(instance, 'id', 1)) or 1
+    
+#     # Construct filename: slug-timestamp-order.ext (e.g., harry-potter-1735689600-1.jpg)
+#     new_filename = f"{slug}-{timestamp}-{order}.{ext}" if ext else f"{slug}-{timestamp}-{order}"
+
+#     return os.path.join('books/covers/', new_filename)
+
+def item_cover_upload_path(instance, filename, folder_prefix):
+    """Dynamic path helper for both books and toys."""
+    item = getattr(instance, 'book', getattr(instance, 'toy', None))
+    
+    if item and hasattr(item, 'title'):
+        title = item.title
     else:
         title = getattr(instance, 'title', 'untitled')
 
-    slug = slugify(title) or 'book'
-    
-    # Extract file extension
+    slug = slugify(title) or 'item'
     ext = filename.split('.')[-1] if '.' in filename else ''
-    
-    # Generate a unique timestamp (e.g., 1735689600)
     timestamp = int(time.time())
-    
-    # Get image index/order if available on BookImage model, fallback to 1
     order = getattr(instance, 'order', getattr(instance, 'id', 1)) or 1
-    
-    # Construct filename: slug-timestamp-order.ext (e.g., harry-potter-1735689600-1.jpg)
-    new_filename = f"{slug}-{timestamp}-{order}.{ext}" if ext else f"{slug}-{timestamp}-{order}"
 
-    return os.path.join('books/covers/', new_filename)
+    new_filename = f"{slug}-{timestamp}-{order}.{ext}" if ext else f"{slug}-{timestamp}-{order}"
+    return os.path.join(f'{folder_prefix}/covers/', new_filename)
+
+def book_cover_upload_path(instance, filename):
+    return item_cover_upload_path(instance, filename, folder_prefix='books')
+
+
+def toy_cover_upload_path(instance, filename):
+    return item_cover_upload_path(instance, filename, folder_prefix='toys')
 
 class Book(TimeStampedModel):
     # ... your existing Book model fields ...
@@ -217,6 +245,103 @@ class BookImage(TimeStampedModel):
         return f"Image for {self.book.title} ({'Primary' if self.is_primary else 'Gallery'})"
 
 
+# ==========================================
+# TOY MODELS
+# ==========================================
+
+class Toy(TimeStampedModel):
+    MATERIAL_CHOICES = [
+        ('wooden', 'Wooden'),
+        ('plastic', 'Plastic'),
+        ('fabric', 'Fabric / Plush'),
+        ('silicone', 'Silicone'),
+        ('paper_cardboard', 'Paper / Cardboard'),
+        ('metal', 'Metal'),
+    ]
+
+    title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255, blank=True)
+    brand = models.CharField(max_length=255, blank=True)
+    sku = models.CharField(max_length=50, unique=True, verbose_name="SKU / Item Code")
+
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_price = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True
+    )
+    stock = models.PositiveIntegerField(default=1)
+    is_available = models.BooleanField(default=True)
+
+    material = models.CharField(
+        max_length=30, choices=MATERIAL_CHOICES, blank=True
+    )
+    age_group = models.CharField(
+        max_length=20, 
+        choices=Book.AGE_GROUP_CHOICES, 
+        blank=True
+    )
+    theme = models.CharField(
+        max_length=50, 
+        choices=Book.THEME_CHOICES, 
+        blank=True
+    )
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="toys"
+    )
+    collections = models.ManyToManyField(
+        Collection,
+        blank=True,
+        related_name="toys"
+    )
+
+    summary = models.TextField(blank=True, verbose_name="Product Summary")
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def is_in_stock(self):
+        return self.stock > 0 and self.is_available
+
+    @property
+    def primary_image(self):
+        """Returns the primary image or the first image from the gallery."""
+        primary = self.images.filter(is_primary=True).first()
+        if primary:
+            return primary.image
+        first_img = self.images.first()
+        return first_img.image if first_img else None
+
+
+class ToyImage(TimeStampedModel):
+    """Stores multiple images per toy (Array/Gallery)."""
+    toy = models.ForeignKey(
+        Toy, 
+        on_delete=models.CASCADE, 
+        related_name="images"
+    )
+    image = models.ImageField(upload_to=toy_cover_upload_path)
+    alt_text = models.CharField(max_length=255, blank=True)
+    is_primary = models.BooleanField(
+        default=False, 
+        help_text="Mark as main cover image"
+    )
+    order = models.PositiveIntegerField(
+        default=0, 
+        help_text="Order of display in gallery"
+    )
+
+    class Meta:
+        ordering = ['order', 'created_at']
+
+    def __str__(self):
+        return f"Image for {self.toy.title} ({'Primary' if self.is_primary else 'Gallery'})"
+
+
 class Order(TimeStampedModel):
     tracking_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
@@ -235,9 +360,20 @@ class Order(TimeStampedModel):
 
 class OrderItem(TimeStampedModel):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    # Generic relation to support both Book and Toy models
+    content_type = models.ForeignKey(
+        ContentType, 
+        on_delete=models.CASCADE,
+        limit_choices_to={'model__in': ('book', 'toy')}
+    )
+    object_id = models.PositiveIntegerField()
+    item = GenericForeignKey('content_type', 'object_id')
+
+    # book = models.ForeignKey(Book, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity}x {self.book.title}"
+        item_name = getattr(self.item, 'title', 'Unknown Item')
+        return f"{self.quantity}x {item_name}"

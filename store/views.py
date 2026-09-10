@@ -4,17 +4,21 @@ import razorpay
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseBadRequest, JsonResponse
 from .models import Book, Category, Collection, Order, OrderItem
 from .cart import Cart
 from django.contrib import messages
-from .models import Order, OrderItem, Book
+from .models import Order, OrderItem, Book, Toy
 from .utils.magiclink import send_order_magic_link, verify_magic_token
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.core.mail import send_mail
 
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+
+
 
 edu_categories = [
         {"id": 18, "name": "Prime Math"},
@@ -144,33 +148,119 @@ def book_detail(request, pk):
     }
     return render(request, 'store/book_detail.html', context)
 
-def cart(request):
-    """Renders the shopping cart page with item details and calculated subtotal."""
-    session_cart = request.session.get('cart', {})
-    cart_items = []
-    total_price = Decimal('0.00')
 
-    # Fetch books from database based on IDs stored in session
-    for book_id, item_data in session_cart.items():
-        try:
-            book = Book.objects.get(pk=book_id)
-            
-            # Extract quantity whether item_data is a dict or a direct int/str
-            if isinstance(item_data, dict):
-                quantity = int(item_data.get('quantity', 1))
-            else:
-                quantity = int(item_data)
+# ==========================================
+# CART HELPER CLASS
+# ==========================================
 
-            subtotal = book.price * quantity
-            total_price += subtotal
-            
-            cart_items.append({
-                'book': book,
-                'quantity': quantity,
+class Cart:
+    """
+    Session-based cart supporting both Book and Toy instances.
+    Session structure:
+    request.session['cart'] = {
+        'book_1': {'item_type': 'book', 'item_id': 1, 'quantity': 2},
+        'toy_5':  {'item_type': 'toy',  'item_id': 5, 'quantity': 1},
+    }
+    """
+    def __init__(self, request):
+        self.session = request.session
+        cart = self.session.get('cart')
+        if not cart:
+            cart = self.session['cart'] = {}
+        self.cart = cart
+
+    def _get_item_key(self, item_type, item_id):
+        return f"{item_type}_{item_id}"
+
+    def add(self, item, item_type, quantity=1, override_quantity=False):
+        key = self._get_item_key(item_type, item.id)
+        if key not in self.cart:
+            self.cart[key] = {
+                'item_type': item_type,
+                'item_id': item.id,
+                'quantity': 0
+            }
+
+        if override_quantity:
+            self.cart[key]['quantity'] = quantity
+        else:
+            self.cart[key]['quantity'] += quantity
+
+        self.save()
+
+    def update_quantity(self, item_type, item_id, action):
+        key = self._get_item_key(item_type, item_id)
+        if key in self.cart:
+            if action == 'increase':
+                self.cart[key]['quantity'] += 1
+            elif action == 'decrease':
+                self.cart[key]['quantity'] -= 1
+                if self.cart[key]['quantity'] <= 0:
+                    self.remove(item_type, item_id)
+            self.save()
+
+    def remove(self, item_type, item_id):
+        key = self._get_item_key(item_type, item_id)
+        if key in self.cart:
+            del self.cart[key]
+            self.save()
+
+    def save(self):
+        self.session['cart'] = self.cart
+        self.session.modified = True
+
+    def clear(self):
+        del self.session['cart']
+        self.session.modified = True
+
+    def __iter__(self):
+        """Iterates over cart items, fetching real instances from DB."""
+        book_ids = [v['item_id'] for v in self.cart.values() if v['item_type'] == 'book']
+        toy_ids = [v['item_id'] for v in self.cart.values() if v['item_type'] == 'toy']
+
+        books_map = {b.id: b for b in Book.objects.filter(id__in=book_ids)}
+        toys_map = {t.id: t for t in Toy.objects.filter(id__in=toy_ids)}
+
+        cart_copy = self.cart.copy()
+
+        for key, item_data in cart_copy.items():
+            item_type = item_data['item_type']
+            item_id = item_data['item_id']
+
+            obj = books_map.get(item_id) if item_type == 'book' else toys_map.get(item_id)
+            if not obj:
+                continue
+
+            subtotal = obj.price * item_data['quantity']
+            yield {
+                'key': key,
+                'item': obj,
+                'item_type': item_type,
+                'item_id': item_id,
+                'price': obj.price,
+                'quantity': item_data['quantity'],
                 'subtotal': subtotal,
-            })
-        except (Book.DoesNotExist, ValueError, TypeError):
-            continue
+            }
+
+    def __len__(self):
+        return sum(item['quantity'] for item in self.cart.values())
+
+    def get_total_price(self):
+        total = Decimal('0.00')
+        for item in self:
+            total += item['subtotal']
+        return total
+
+
+# ==========================================
+# VIEWS
+# ==========================================
+
+def cart(request):
+    """Renders the shopping cart page with item details and calculated total."""
+    cart_obj = Cart(request)
+    cart_items = list(cart_obj)
+    total_price = cart_obj.get_total_price()
 
     context = {
         'cart_items': cart_items,
@@ -179,112 +269,77 @@ def cart(request):
     return render(request, 'store/cart.html', context)
 
 
-def add_to_cart(request, book_id):
+def add_to_cart(request, item_type, item_id):
+    """
+    Adds a Book or Toy to the cart.
+    URL expects item_type ('book' or 'toy') and item_id.
+    """
     if request.method == 'POST':
-        print('STARTED --------------- ')
-        book = get_object_or_404(Book, pk=book_id)
+        if item_type == 'book':
+            item_obj = get_object_or_404(Book, pk=item_id)
+        elif item_type == 'toy':
+            item_obj = get_object_or_404(Toy, pk=item_id)
+        else:
+            return HttpResponseBadRequest("Invalid item type")
 
-        print('book --------------- ', book)
-        
         try:
             quantity = int(request.POST.get('quantity', 1))
         except (ValueError, TypeError):
             quantity = 1
 
-        cart = request.session.get('cart', {})
-        book_id_str = str(book_id)
-        existing_val = cart.get(book_id_str, 0)
+        cart_obj = Cart(request)
+        cart_obj.add(item=item_obj, item_type=item_type, quantity=quantity)
 
-        # Handle existing item whether stored as a dict or an integer
-        if isinstance(existing_val, dict):
-            current_qty = int(existing_val.get('quantity', 0))
-            existing_val['quantity'] = current_qty + quantity
-            cart[book_id_str] = existing_val
-        else:
-            try:
-                current_qty = int(existing_val)
-            except (ValueError, TypeError):
-                current_qty = 0
-            cart[book_id_str] = current_qty + quantity
-
-        # Mark session as modified so Django saves changes
-        request.session['cart'] = cart
-        request.session.modified = True
-
-        # Redirect directly to cart page if 'Buy Now' was clicked
         if request.POST.get('direct_checkout') == '1':
             return redirect('cart')
 
-        # Handle AJAX response if submitted asynchronously
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            total_count = sum(
-                item['quantity'] if isinstance(item, dict) else int(item)
-                for item in cart.values()
-            )
-            return JsonResponse({'cart_count': total_count})
+            return JsonResponse({'cart_count': len(cart_obj)})
 
         return redirect(request.META.get('HTTP_REFERER', 'book_list'))
 
     return redirect('book_list')
 
-def update_cart(request, book_id):
+
+def update_cart(request, item_type, item_id):
     """Increases or decreases item quantity in the cart."""
     if request.method == 'POST':
         action = request.POST.get('action')
-        cart = request.session.get('cart', {})
-        book_id_str = str(book_id)
-
-        if book_id_str in cart:
-            if action == 'increase':
-                cart[book_id_str] += 1
-            elif action == 'decrease':
-                cart[book_id_str] -= 1
-                if cart[book_id_str] <= 0:
-                    del cart[book_id_str]
-
-            request.session['cart'] = cart
-            request.session.modified = True
+        cart_obj = Cart(request)
+        cart_obj.update_quantity(item_type=item_type, item_id=item_id, action=action)
 
     return redirect('cart')
 
 
-def remove_from_cart(request, book_id):
+def remove_from_cart(request, item_type, item_id):
     """Removes an item completely from the session cart."""
     if request.method == 'POST':
-        cart = request.session.get('cart', {})
-        book_id_str = str(book_id)
-
-        if book_id_str in cart:
-            del cart[book_id_str]
-            request.session['cart'] = cart
-            request.session.modified = True
+        cart_obj = Cart(request)
+        cart_obj.remove(item_type=item_type, item_id=item_id)
 
     return redirect('cart')
 
+
 def checkout(request):
-    cart = Cart(request)
-    total_amount = cart.get_total_price()
+    cart_obj = Cart(request)
+    total_amount = cart_obj.get_total_price()
 
     if total_amount == 0:
         return redirect('book_list')
 
     if request.method == 'POST':
-        # Collect Guest Details
         email = request.POST.get('email')
         name = request.POST.get('full_name')
         address = request.POST.get('address')
 
-        # Convert INR to paise for Razorpay
         amount_in_paise = int(total_amount * 100)
 
-        # Create Razorpay Order
         razorpay_order = client.order.create({
             'amount': amount_in_paise,
             'currency': 'INR',
             'payment_capture': '1'
         })
 
-        # Create Draft Order in DB
         order = Order.objects.create(
             email=email,
             full_name=name,
@@ -293,10 +348,11 @@ def checkout(request):
             razorpay_order_id=razorpay_order['id']
         )
 
-        for item in cart:
+        for item in cart_obj:
             OrderItem.objects.create(
                 order=order,
-                book=item['book'],
+                content_type=ContentType.objects.get_for_model(item['item']),
+                object_id=item['item'].id,
                 price=item['price'],
                 quantity=item['quantity']
             )
@@ -309,13 +365,14 @@ def checkout(request):
         }
         return render(request, 'store/payment.html', context)
 
-    return render(request, 'store/checkout.html', {'cart': cart, 'total_amount': total_amount})
+    return render(request, 'store/checkout.html', {'cart': cart_obj, 'total_amount': total_amount})
+
 
 def payment_view(request):
-    cart = Cart(request)
-    
-    # Redirect if cart is empty
-    if not cart:
+    cart_obj = Cart(request)
+    total_amount = cart_obj.get_total_price()
+
+    if total_amount == 0:
         return redirect('book_list')
 
     if request.method == 'POST':
@@ -323,9 +380,6 @@ def payment_view(request):
         full_name = request.POST.get('full_name')
         shipping_address = request.POST.get('shipping_address')
 
-        total_amount = cart.get_total_price() # e.g. 299
-
-        # 1. Create local Order record
         order = Order.objects.create(
             full_name=full_name,
             email=email,
@@ -334,30 +388,24 @@ def payment_view(request):
             paid=False
         )
 
-        # 2. Add Cart items to OrderItem model
-        for item in cart:
+        for item in cart_obj:
             OrderItem.objects.create(
                 order=order,
-                book=item['book'],
+                content_type=ContentType.objects.get_for_model(item['item']),
+                object_id=item['item'].id,
                 price=item['price'],
                 quantity=item['quantity']
             )
 
-        # 3. Initialize Razorpay Client & Create Order
-        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-        
-        # Razorpay expects the amount in paise (1 INR = 100 Paise)
         razorpay_order = client.order.create({
             "amount": int(total_amount * 100),
             "currency": "INR",
             "payment_capture": "1"
         })
 
-        # Save Razorpay Order ID to local Order model
         order.razorpay_order_id = razorpay_order['id']
         order.save()
 
-        # 4. Context for client-side Razorpay modal
         context = {
             'order': order,
             'razorpay_order_id': razorpay_order['id'],
@@ -369,6 +417,7 @@ def payment_view(request):
         return render(request, 'store/payment.html', context)
 
     return redirect('checkout')
+
 
 @csrf_exempt
 def payment_success(request):
@@ -384,20 +433,16 @@ def payment_success(request):
         }
 
         try:
-            # 1. Verify payment signature
             client.utility.verify_payment_signature(params_dict)
-            
-            # 2. Mark Order as Paid
+
             order = Order.objects.get(razorpay_order_id=razorpay_order_id)
             order.paid = True
             order.razorpay_payment_id = payment_id
             order.save()
 
-            # 3. Clear Session Cart
-            cart = Cart(request)
-            cart.clear()
+            cart_obj = Cart(request)
+            cart_obj.clear()
 
-            # 4. Dispatch Magic Link via ZeptoMail
             try:
                 send_order_magic_link(order, request=request)
             except Exception as mail_err:
@@ -410,7 +455,6 @@ def payment_success(request):
             return HttpResponseBadRequest("Payment Verification Failed")
 
     return HttpResponseBadRequest("Invalid Request")
-
 
 def order_magic_access(request, token):
     """Validates the permanent magic link token and displays order details."""

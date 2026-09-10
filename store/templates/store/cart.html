@@ -29,13 +29,12 @@
 
                         <div>
                             <h3 class="font-bold text-brand-plum text-base leading-snug">
-                                <a href="{% url 'book_detail' item.book.id %}" class="hover:text-brand-coral transition">
-                                    {{ item.book.title }}
+                                <a href="{% url 'book_detail' item.item.id %}" class="hover:text-brand-coral transition">
+                                    {{ item.item.title }}
                                 </a>
                             </h3>
-                            <p class="text-xs text-brand-plum/70 mt-0.5">By {{ item.book.author }}</p>
                             <span class="text-xs font-bold text-brand-plum mt-2 block sm:hidden">
-                                ₹{{ item.book.price }} each
+                                ₹{{ item.item.price }} each
                             </span>
                         </div>
                     </div>
@@ -43,21 +42,23 @@
                     <!-- Quantity & Subtotal Controls -->
                     <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-brand-plum/10">
                         <span class="text-sm font-bold text-brand-plum hidden sm:block">
-                            ₹{{ item.book.price }}
+                            ₹{{ item.item.price }}
                         </span>
 
                         <div class="flex items-center gap-2 bg-base-200/60 rounded-lg p-1 border border-brand-plum/10">
-                            <form action="{% url 'update_cart' item.book.id %}" method="POST" class="inline">
+                            <!-- Decrease Quantity -->
+                            <form action="{% url 'update_cart' item.item_type item.item.id %}" method="POST" class="inline">
                                 {% csrf_token %}
                                 <input type="hidden" name="action" value="decrease" />
                                 <button type="submit" class="w-7 h-7 flex items-center justify-center rounded-md bg-base-100 text-brand-plum font-bold hover:bg-brand-coral hover:text-white transition shadow-xs">
                                     -
                                 </button>
                             </form>
-                            
+
                             <span class="text-xs font-black text-brand-plum px-2">{{ item.quantity }}</span>
 
-                            <form action="{% url 'update_cart' item.book.id %}" method="POST" class="inline">
+                            <!-- Increase Quantity -->
+                            <form action="{% url 'update_cart' item.item_type item.item.id %}" method="POST" class="inline">
                                 {% csrf_token %}
                                 <input type="hidden" name="action" value="increase" />
                                 <button type="submit" class="w-7 h-7 flex items-center justify-center rounded-md bg-base-100 text-brand-plum font-bold hover:bg-brand-coral hover:text-white transition shadow-xs">
@@ -72,7 +73,7 @@
                             </span>
                         </div>
 
-                        <form action="{% url 'remove_from_cart' item.book.id %}" method="POST">
+                        <form action="{% url 'remove_from_cart' item.item_type item.item.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit" class="text-brand-plum/40 hover:text-brand-coral transition p-1" title="Remove item">
                                 <!-- Lucide: Trash 2 -->
