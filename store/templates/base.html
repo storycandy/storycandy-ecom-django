@@ -32,7 +32,7 @@
 <body class="bg-base-100 text-base-content min-h-screen flex flex-col antialiased">
 
     <!-- Top Announcement Bar using Deep Plum (#4A1525) instead of Blue -->
-    <div class="bg-brand-plum text-brand-cream text-xs sm:text-sm py-2.5 px-4 text-center font-medium tracking-wide">
+    <!-- <div class="bg-brand-plum text-brand-cream text-xs sm:text-sm py-2.5 px-4 text-center font-medium tracking-wide">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <span class="hidden md:inline">NEP 2020 Aligned | 300+ School Book Fairs Conducted</span>
             <span class="mx-auto md:mx-0">Free Shipping on Orders Above ₹1000</span>
@@ -43,25 +43,24 @@
                     Principals</a>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- ==================== MAIN NAVBAR ==================== -->
 <!-- Main Header -->
-<header class="sticky top-0 z-50 bg-base-100 border-b border-base-200 shadow-xs">
+<header class="sticky top-0 z-50 bg-rose-500 border-b border-rose-600 shadow-xs text-white">
     <div class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-[80px] relative">
+        <div class="flex items-center justify-between h-[64px] sm:h-[80px] relative">
 
             <!-- Brand Logo (Left Column) -->
             <div class="flex items-center gap-3 shrink-0">
-                <a href="/" class="flex items-center gap-3">
+                <a href="/" class="flex items-center gap-3 group">
+                    <!-- Circular Small Logo -->
                     <img src="{% static 'images/storycandy-logo.webp' %}" alt="Storycandy Logo"
-                        class="h-[80px] w-auto object-contain" />
+                        class="w-10 h-10 rounded-full object-cover bg-white p-0.5 shadow-sm transition-transform group-hover:scale-105" />
+                    
                     <div class="flex flex-col">
-                        <span class="text-2xl font-black tracking-tight text-brand-plum leading-none">
-                            Story<span class="text-brand-teal">candy</span>
-                        </span>
-                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-brand-teal mt-0.5">
-                            Sweet Stories, Big Dreams
+                        <span class="text-xl sm:text-2xl font-black tracking-tight text-white leading-loose">
+                            Storycandy
                         </span>
                     </div>
                 </a>
@@ -70,10 +69,10 @@
             <!-- Search Bar (Perfectly Centered Absolutely - Desktop) -->
             <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-full max-w-md">
                 <form action="{% url 'book_list' %}" method="GET" class="w-full relative flex items-center">
-                    <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search by title, author, or age..."
-                        class="input input-bordered input-sm sm:input-md w-full pr-10 rounded-full bg-base-200/50 border-base-300 focus:bg-base-100 focus:border-brand-teal focus:outline-none transition-colors" />
+                    <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search Book or Toy"
+                        class="input input-bordered input-sm sm:input-md w-full pr-10 rounded-full bg-white/20 border-white/30 text-white placeholder-rose-100 focus:bg-white focus:text-gray-900 focus:placeholder-gray-400 focus:border-white focus:outline-none transition-colors" />
                     <button type="submit" aria-label="Search"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-plum/50 hover:text-brand-teal transition-colors flex items-center justify-center p-1">
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors flex items-center justify-center p-1">
                         <!-- Lucide: Search -->
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -88,24 +87,29 @@
             <div class="flex items-center gap-3 sm:gap-4 shrink-0">
                 <!-- Books Navigation Link -->
                 <a href="{% url 'book_list' %}" 
-                   class="text-sm font-bold text-brand-plum hover:text-brand-teal transition-colors hidden md:inline-block px-1">
+                   class="text-sm font-bold text-white hover:text-rose-100 transition-colors hidden md:inline-block px-1">
                     Books
+                </a>
+
+                <a href="{% url 'book_list' %}" 
+                   class="text-sm font-bold text-white hover:text-rose-100 transition-colors hidden md:inline-block px-1">
+                    Toys
                 </a>
 
                 <!-- About Navigation Link -->
                 <a href="{% url 'about' %}" 
-                   class="text-sm font-bold text-brand-plum hover:text-brand-teal transition-colors hidden md:inline-block px-1">
+                   class="text-sm font-bold text-white hover:text-rose-100 transition-colors hidden md:inline-block px-1">
                     About
                 </a>
 
                 <!-- Host a Book Fair CTA -->
                 <a href="/#book-fair-info"
-                    class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-sm rounded-full font-bold shadow-xs hidden sm:inline-flex">
+                    class="btn bg-white hover:bg-rose-50 text-rose-600 border-none btn-sm rounded-full font-extrabold shadow-xs hidden sm:inline-flex">
                     Host a Book Fair
                 </a>
 
                 <!-- Cart Button -->
-                <a href="{% url 'cart' %}" class="relative btn btn-ghost btn-circle text-brand-plum">
+                <a href="{% url 'cart' %}" class="relative btn btn-ghost btn-circle text-white hover:bg-white/10">
                     <!-- Lucide: Shopping Bag -->
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -115,14 +119,14 @@
                     </svg>
                     <!-- Cart Counter Badge -->
                     <span id="cart-count-badge"
-                        class="absolute -top-1 -right-1 bg-brand-coral text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center shadow-xs">
+                        class="absolute -top-1 -right-1 bg-white text-rose-600 text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center shadow-xs">
                         {{ cart_count|default:0 }}
                     </span>
                 </a>
 
-                <!-- Mobile Menu Toggle Button (Visible only on screens below md: 768px) -->
+                <!-- Mobile Menu Toggle Button -->
                 <button id="mobile-menu-open" type="button" aria-label="Open Menu"
-                    class="btn btn-ghost btn-circle text-brand-plum md:hidden">
+                    class="btn btn-ghost btn-circle text-white hover:bg-white/10 md:hidden">
                     <!-- Lucide: Menu -->
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
