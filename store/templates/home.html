@@ -7,62 +7,89 @@
 
 <!-- ==================== 1. HERO SECTION ==================== -->
 <!-- ==================== HERO SECTION ==================== -->
-<section class="relative bg-base-100 py-12 overflow-hidden min-h-[550px] flex items-center">
+<section class="relative py-12 overflow-hidden min-h-[550px] flex items-center bg-gradient-to-r from-amber-50 via-rose-50/50 via-sky-50/50 to-emerald-50">
     
-    <!-- Background Image: Desktop Right / Mobile Full Cover -->
-    <div class="absolute inset-0 z-0 pointer-events-none">
+    <!-- Background: Text on Left / Image on Right (Desktop Only) -->
+    <div class="absolute inset-0 z-0 pointer-events-none hidden lg:block">
         <img src="{% static 'images/hero-bg.webp' %}" 
              alt="Children enjoying books" 
-             class="w-full h-full object-cover object-left lg:w-1/2 lg:ml-auto" />
+             class="w-1/2 h-full object-cover object-left ml-auto" />
+    </div>
+
+    <!-- Background: Full Cover (Mobile/Tablet Only) -->
+    <div class="absolute inset-0 z-0 pointer-events-none lg:hidden">
+        <img src="{% static 'images/hero-bg.webp' %}" 
+             alt="Children enjoying books" 
+             class="w-full h-full object-cover object-left" />
         
         <!-- Backdrop Gradients for Text Visibility -->
         <!-- Mobile/Tablet: Bottom-to-Top Dark Backdrop Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/90 to-base-100/40 lg:hidden"></div>
-        
-        <!-- Desktop: Soft Left-to-Right Fade (Blends Cream BG seamlessly into Image) -->
-        <div class="hidden lg:block absolute inset-0 bg-gradient-to-r from-base-100 via-base-100/95 to-transparent w-3/5"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/80 to-white/30"></div>
     </div>
+
+    <!-- Playful Decorative Vector Background Shapes -->
+    <!-- Top Left: Blue Rounded Triangle -->
+    <div class="absolute -top-12 -left-12 sm:-top-16 sm:-left-16 w-40 h-40 sm:w-56 sm:h-56 text-sky-200/50 opacity-90 transform -rotate-12 pointer-events-none lg:opacity-70">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M38.8,-60.1C49.9,-53.4,58.3,-41.8,64.2,-29.1C70,-16.5,73.4,-2.8,70.8,9.7C68.1,22.2,59.4,33.5,49.5,43.2C39.6,52.9,28.5,60.9,15.7,65.2C2.9,69.5,-11.7,70,-25.1,65.5C-38.5,61.1,-50.8,51.6,-61.1,39.9C-71.5,28.2,-80,-1.1,-75.7,-26.6C-71.3,-52.1,-54,-73.7,-35.6,-78.3C-17.1,-82.9,2.4,-70.5,13.2,-63.9C24,-57.3,38.8,-60.1,38.8,-60.1Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+
+    <!-- Bottom Left: Yellow Square with Rounded Corners -->
+    <div class="absolute bottom-10 left-10 w-24 h-24 text-amber-300/60 opacity-90 transform rotate-15 pointer-events-none lg:opacity-70">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="currentColor" x="25" y="25" width="150" height="150" rx="40" ry="40" />
+        </svg>
+    </div>
+
+    <!-- Desktop: Floating Green Wavy Line Near Image Border -->
+    <div class="hidden lg:block absolute top-1/2 left-1/2 w-40 h-80 text-emerald-300/40 opacity-80 transform -translate-x-1/2 -translate-y-1/2 rotate-90 pointer-events-none z-1">
+        <svg viewBox="0 0 200 800" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round" d="M100 0 C 150 50, 50 150, 100 200 S 150 350, 100 400 S 50 550, 100 600 S 150 750, 100 800" />
+        </svg>
+    </div>
+
 
     <!-- Hero Content Layer -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div class="max-w-xl text-center lg:text-left space-y-6 sm:pr-8">
             
             <!-- NEP / Literacy Badge -->
-            <div class="inline-flex items-center gap-2 bg-brand-gold/20 text-brand-plum text-xs font-bold px-3.5 py-1.5 rounded-full border border-brand-gold/40 shadow-xs backdrop-blur-sm">
-                <span class="w-2 h-2 rounded-full bg-brand-coral animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 bg-amber-100/80 text-amber-900 text-xs font-bold px-3.5 py-1.5 rounded-full border border-amber-200/70 shadow-xs backdrop-blur-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
                 <span>Redefining Children's Literacy</span>
             </div>
             
-            <!-- Headline (Matches About Page) -->
-            <h1 class="text-4xl sm:text-5xl lg:text-5xl font-black text-brand-plum tracking-tight leading-tight">
-                Changing the way children fall in love with <span class="text-brand-coral underline decoration-brand-gold decoration-4">reading.</span>
+            <!-- Headline -->
+            <h1 class="text-4xl sm:text-5xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
+                Changing the way children fall in love with <span class="text-rose-500 underline decoration-amber-400 decoration-4">reading.</span>
             </h1>
             
-            <!-- Subtitle (Adapted from About Content) -->
-            <p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed">
+            <!-- Subtitle -->
+            <p class="text-base sm:text-lg text-slate-800 font-medium leading-relaxed">
                 We believe every child deserves one magical moment with a book. Creating extraordinary reading experiences, curated collections, and zero-hassle book fairs across India.
             </p>
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                <a href="#bestseller-collection" class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-md sm:btn-lg rounded-full px-8 shadow-md transition">
+                <a href="#bestseller-collection" class="btn bg-sky-500 hover:bg-sky-600 text-white border-none btn-md sm:btn-lg rounded-full px-8 shadow-md hover:shadow-lg transition-all duration-300">
                     Explore Books
                 </a>
-                <a href="#book-fair-info" class="btn border-2 border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white btn-md sm:btn-lg rounded-full px-8 transition bg-base-100/80 backdrop-blur-sm">
+                <a href="#book-fair-info" class="btn border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white btn-md sm:btn-lg rounded-full px-8 transition-all duration-300 bg-white/80 backdrop-blur-sm">
                     Host a Book Fair
                 </a>
             </div>
 
-            <!-- Mini Trust Strip (Adapted from About Taglines) -->
-            <div class="pt-6 border-t border-base-300/80 flex flex-wrap justify-center lg:justify-start gap-6 text-brand-plum/90 text-xs font-bold">
+            <!-- Mini Trust Strip -->
+            <div class="pt-6 border-t border-slate-200 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3 text-slate-900 text-xs font-bold">
                 <div class="flex items-center gap-1.5">
-                    <span class="text-brand-teal font-extrabold text-sm">✓</span> Building Readers, Building Futures
+                    <span class="text-emerald-500 font-extrabold text-sm">✓</span> Building Readers, Building Futures
                 </div>
                 <div class="flex items-center gap-1.5">
-                    <span class="text-brand-teal font-extrabold text-sm">✓</span> Where Reading Comes Alive
+                    <span class="text-rose-400 font-extrabold text-sm">✓</span> Where Reading Comes Alive
                 </div>
                 <div class="flex items-center gap-1.5">
-                    <span class="text-brand-teal font-extrabold text-sm">✓</span> Inspiring Curious Minds
+                    <span class="text-amber-500 font-extrabold text-sm">✓</span> Inspiring Curious Minds
                 </div>
             </div>
 
@@ -275,53 +302,111 @@
 <!-- ==================== CURATED COLLECTIONS ==================== -->
 
 <!-- 1. BESTSELLERS SECTION -->
-<section id="bestseller-collection" class="py-16 bg-base-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-brand-plum/10 pb-4">
+<section id="bestseller-collection" class="py-16 bg-gradient-to-r from-amber-50/50 via-rose-50/30 via-sky-50/30 to-emerald-50/50 relative overflow-hidden">
+    <!-- Playful Decorative Vector Background Shapes -->
+    <!-- Top Left: Blue Rounded Triangle -->
+    <div class="absolute -top-12 -left-12 sm:-top-16 sm:-left-16 w-40 h-40 sm:w-56 sm:h-56 text-sky-200/50 opacity-90 transform -rotate-12 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M38.8,-60.1C49.9,-53.4,58.3,-41.8,64.2,-29.1C70,-16.5,73.4,-2.8,70.8,9.7C68.1,22.2,59.4,33.5,49.5,43.2C39.6,52.9,28.5,60.9,15.7,65.2C2.9,69.5,-11.7,70,-25.1,65.5C-38.5,61.1,-50.8,51.6,-61.1,39.9C-71.5,28.2,-80,-1.1,-75.7,-26.6C-71.3,-52.1,-54,-73.7,-35.6,-78.3C-17.1,-82.9,2.4,-70.5,13.2,-63.9C24,-57.3,38.8,-60.1,38.8,-60.1Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+
+    <!-- Right Side: Green Wavy Line -->
+    <div class="absolute top-1/2 right-4 w-32 h-64 sm:w-40 sm:h-80 text-emerald-300/40 opacity-80 transform translate-x-1/2 -translate-y-1/2 rotate-90 pointer-events-none">
+        <svg viewBox="0 0 200 800" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round" d="M100 0 C 150 50, 50 150, 100 200 S 150 350, 100 400 S 50 550, 100 600 S 150 750, 100 800" />
+        </svg>
+    </div>
+
+    <!-- Bottom Left: Yellow Square with Rounded Corners -->
+    <div class="absolute bottom-10 left-10 w-24 h-24 text-amber-300/60 opacity-90 transform rotate-15 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="currentColor" x="25" y="25" width="150" height="150" rx="40" ry="40" />
+        </svg>
+    </div>
+
+    <!-- Bottom Right: Large Pink Circle -->
+    <div class="absolute -bottom-20 -right-20 w-56 h-56 sm:w-72 sm:h-72 text-rose-200/50 opacity-90 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="currentColor" cx="100" cy="100" r="80" />
+        </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-slate-200/80 pb-4 relative z-10">
             <div>
-                <span class="inline-block bg-brand-coral/10 text-brand-coral font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Top Readers Choice</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">Bestseller Books</h2>
-                <p class="text-xs sm:text-sm text-brand-plum/70 mt-1 font-medium">Most loved and highly requested titles by kids and parents</p>
+                <span class="inline-block bg-rose-100 text-rose-600 font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">
+                    Top Readers Choice
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Bestseller Books</h2>
+                <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Most loved and highly requested titles by kids and parents</p>
             </div>
-            <a href="{% url 'book_list' %}?collection=1" class="btn btn-ghost btn-sm text-brand-teal hover:bg-brand-teal/10 rounded-full font-bold self-start sm:self-auto">
+            <a href="{% url 'book_list' %}?collection=1" class="inline-flex items-center gap-1 text-sm text-sky-600 hover:text-sky-700 bg-white/80 hover:bg-white border border-sky-200 px-4 py-2 rounded-full font-bold self-start sm:self-auto shadow-xs transition-all relative z-10">
                 View All Bestsellers →
             </a>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Book Cards Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 relative z-10">
             {% for book in bestseller_books %}
                 {% include 'partials/_book_card.html' with book=book %}
             {% empty %}
-                <div class="col-span-full text-center py-12 bg-base-200/50 rounded-2xl border border-dashed border-brand-plum/20">
-                    <p class="text-brand-plum font-semibold text-sm">No bestseller books found.</p>
-                    <p class="text-xs text-brand-plum/60 mt-1">Assign books to the "Bestseller" collection in Django Admin.</p>
+                <div class="col-span-full text-center py-12 bg-white/70 backdrop-blur-xs rounded-2xl border border-dashed border-slate-300 relative z-10">
+                    <p class="text-slate-800 font-bold text-sm">No bestseller books found.</p>
+                    <p class="text-xs text-slate-500 mt-1">Assign books to the "Bestseller" collection in Django Admin.</p>
                 </div>
             {% endfor %}
         </div>
     </div>
 </section>
-
 <!-- 2. POPULAR SERIES SECTION -->
-<section id="popular-series-collection" class="py-16 bg-base-200/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-brand-plum/10 pb-4">
+<section id="popular-series-collection" class="py-16 bg-gradient-to-r from-amber-50/50 via-rose-50/30 via-sky-50/30 to-emerald-50/50 relative overflow-hidden">
+    <!-- Playful Decorative Vector Background Shapes (Series Theme) -->
+    <!-- Top Right: Stack of Books Shape (Rose) -->
+    <div class="absolute -top-12 -right-12 w-48 h-48 sm:w-64 sm:h-64 text-rose-200/50 opacity-90 transform rotate-12 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="currentColor" x="40" y="40" width="120" height="30" rx="5" ry="5"/>
+            <rect fill="currentColor" x="45" y="80" width="110" height="30" rx="5" ry="5"/>
+            <rect fill="currentColor" x="42" y="120" width="116" height="30" rx="5" ry="5"/>
+        </svg>
+    </div>
+
+    <!-- Bottom Left: Starburst Shape (Sky Blue) -->
+    <div class="absolute bottom-10 -left-16 w-40 h-40 sm:w-56 sm:h-56 text-sky-300/60 opacity-90 transform -rotate-15 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M100 10 L115 70 L175 70 L125 105 L140 165 L100 130 L60 165 L75 105 L25 70 L85 70 Z"/>
+        </svg>
+    </div>
+
+    <!-- Middle Right: Curved Arrow Shape (Emerald) -->
+    <div class="absolute top-1/2 -right-10 w-24 h-48 sm:w-32 sm:h-64 text-emerald-200/50 opacity-80 transform -translate-y-1/2 rotate-90 pointer-events-none">
+        <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" d="M20 20 C 80 80, 80 120, 20 180 M 80 120 L 60 140 M 80 120 L 100 140"/>
+        </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-slate-200/80 pb-4 relative z-10">
             <div>
-                <span class="inline-block bg-brand-gold/20 text-brand-plum font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Binge-Worthy Sets</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">Popular Series</h2>
-                <p class="text-xs sm:text-sm text-brand-plum/70 mt-1 font-medium">Multi-part adventures and beloved multi-book collections</p>
+                <span class="inline-block bg-amber-100 text-amber-800 font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">
+                    Binge-Worthy Sets
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Popular Series</h2>
+                <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Multi-part adventures and beloved multi-book collections</p>
             </div>
-            <a href="{% url 'book_list' %}?collection=2" class="btn btn-ghost btn-sm text-brand-teal hover:bg-brand-teal/10 rounded-full font-bold self-start sm:self-auto">
+            <a href="{% url 'book_list' %}?collection=2" class="inline-flex items-center gap-1 text-sm text-sky-600 hover:text-sky-700 bg-white/80 hover:bg-white border border-sky-200 px-4 py-2 rounded-full font-bold self-start sm:self-auto shadow-xs transition-all relative z-10">
                 View All Series →
             </a>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 relative z-10">
             {% for book in popular_books %}
                 {% include 'partials/_book_card.html' with book=book %}
             {% empty %}
-                <div class="col-span-full text-center py-12 bg-base-100 rounded-2xl border border-dashed border-brand-plum/20">
-                    <p class="text-brand-plum font-semibold text-sm">No popular series books found.</p>
-                    <p class="text-xs text-brand-plum/60 mt-1">Assign books to the "Popular Series" collection in Django Admin.</p>
+                <div class="col-span-full text-center py-12 bg-white/70 backdrop-blur-xs rounded-2xl border border-dashed border-slate-300 relative z-10">
+                    <p class="text-slate-800 font-bold text-sm">No popular series books found.</p>
+                    <p class="text-xs text-slate-500 mt-1">Assign books to the "Popular Series" collection in Django Admin.</p>
                 </div>
             {% endfor %}
         </div>
@@ -329,26 +414,53 @@
 </section>
 
 <!-- 3. INDIA PUBLISHING SECTION -->
-<section id="india-publishing-collection" class="py-16 bg-base-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-brand-plum/10 pb-4">
+<section id="india-publishing-collection" class="py-16 bg-gradient-to-r from-emerald-50/50 via-sky-50/30 via-rose-50/30 to-amber-50/50 relative overflow-hidden">
+    <!-- Playful Decorative Vector Background Shapes (India Theme) -->
+    <!-- Top Left: Elephant Shape (Emerald) -->
+    <div class="absolute -top-10 -left-10 w-48 h-48 sm:w-64 sm:h-64 text-emerald-200/50 opacity-90 transform -rotate-12 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M100 40 C 60 40, 40 60, 40 100 C 40 140, 60 160, 100 160 C 140 160, 160 140, 160 100 C 160 60, 140 40, 100 40 Z M 100 60 C 120 60, 130 70, 130 90 L 70 90 C 70 70, 80 60, 100 60 Z M 100 110 L 130 110 C 130 130, 120 140, 100 140 C 80 140, 70 130, 70 110 Z M 110 95 C 115 95, 120 100, 120 105 C 120 110, 115 115, 110 115 C 105 115, 100 110, 100 105 C 100 100, 105 95, 110 95 Z"/>
+        </svg>
+    </div>
+
+    <!-- Middle Left: Peacock Feather Shape (Sky Blue) -->
+    <div class="absolute top-1/2 -left-8 w-24 h-48 sm:w-32 sm:h-64 text-sky-200/60 opacity-80 transform -translate-y-1/2 pointer-events-none">
+        <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+            <ellipse fill="none" stroke="currentColor" stroke-width="10" cx="50" cy="60" rx="30" ry="40"/>
+            <path fill="currentColor" d="M50 80 A 10 10 0 0 0 50 100 Z"/>
+            <path fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" d="M50 100 C 50 140, 50 160, 50 200"/>
+        </svg>
+    </div>
+
+    <!-- Bottom Right: Sun Shape (Amber) -->
+    <div class="absolute -bottom-16 -right-16 w-56 h-56 sm:w-72 sm:h-72 text-amber-300/50 opacity-90 transform rotate-15 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="currentColor" cx="100" cy="100" r="70"/>
+            <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round" d="M100 0 V 30 M 100 170 V 200 M 0 100 H 30 M 170 100 H 200 M 30 30 L 50 50 M 150 150 L 170 170 M 30 170 L 50 150 M 150 30 L 170 50"/>
+        </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4 border-b border-slate-200/80 pb-4 relative z-10">
             <div>
-                <span class="inline-block bg-brand-teal/10 text-brand-teal font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Cultural & Local Stories</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">India Publishing</h2>
-                <p class="text-xs sm:text-sm text-brand-plum/70 mt-1 font-medium">Rich Indian heritage, mythology, regional tales, and indigenous authors</p>
+                <span class="inline-block bg-emerald-100 text-emerald-800 font-bold text-xs px-3 py-1 rounded-full mb-2 uppercase tracking-wider">
+                    Cultural & Local Stories
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">India Publishing</h2>
+                <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Rich Indian heritage, mythology, regional tales, and indigenous authors</p>
             </div>
-            <a href="{% url 'book_list' %}?collection=3" class="btn btn-ghost btn-sm text-brand-teal hover:bg-brand-teal/10 rounded-full font-bold self-start sm:self-auto">
+            <a href="{% url 'book_list' %}?collection=3" class="inline-flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 bg-white/80 hover:bg-white border border-emerald-200 px-4 py-2 rounded-full font-bold self-start sm:self-auto shadow-xs transition-all relative z-10">
                 Explore India Publishing →
             </a>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 relative z-10">
             {% for book in india_publishing_books %}
                 {% include 'partials/_book_card.html' with book=book %}
             {% empty %}
-                <div class="col-span-full text-center py-12 bg-base-200/50 rounded-2xl border border-dashed border-brand-plum/20">
-                    <p class="text-brand-plum font-semibold text-sm">No India Publishing books found.</p>
-                    <p class="text-xs text-brand-plum/60 mt-1">Assign books to the "India Publishing" collection in Django Admin.</p>
+                <div class="col-span-full text-center py-12 bg-white/70 backdrop-blur-xs rounded-2xl border border-dashed border-slate-300 relative z-10">
+                    <p class="text-slate-800 font-bold text-sm">No India Publishing books found.</p>
+                    <p class="text-xs text-slate-500 mt-1">Assign books to the "India Publishing" collection in Django Admin.</p>
                 </div>
             {% endfor %}
         </div>
