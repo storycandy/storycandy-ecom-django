@@ -433,16 +433,21 @@ def payment_success(request):
         }
 
         try:
+            # 1. Verify Payment
             client.utility.verify_payment_signature(params_dict)
 
+            # 2. Mark Order as Paid
             order = Order.objects.get(razorpay_order_id=razorpay_order_id)
             order.paid = True
             order.razorpay_payment_id = payment_id
             order.save()
 
-            cart_obj = Cart(request)
-            cart_obj.clear()
+            # 3. Clear Cart Explicitly from Session
+            if 'cart' in request.session:
+                del request.session['cart']
+                request.session.modified = True
 
+            # 4. Optional: Send Magic Link/Confirmation Email
             try:
                 send_order_magic_link(order, request=request)
             except Exception as mail_err:
@@ -455,6 +460,7 @@ def payment_success(request):
             return HttpResponseBadRequest("Payment Verification Failed")
 
     return HttpResponseBadRequest("Invalid Request")
+
 
 def order_magic_access(request, token):
     """Validates the permanent magic link token and displays order details."""
