@@ -71,23 +71,30 @@
 </section>
 
 <!-- ==================== 2. STATS BAR ==================== -->
-<section class="bg-brand-plum text-brand-cream py-12 border-y border-brand-gold/20 shadow-inner">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div>
-            <div class="text-3xl sm:text-4xl font-black text-brand-gold">300+</div>
-            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">School Book Fairs</div>
+<section class="bg-gradient-to-r from-amber-100 via-rose-100 via-sky-100 to-emerald-100 text-slate-800 py-12 border-y border-amber-200/60 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <!-- Card 1: Pastel Gold / Amber -->
+        <div class="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-amber-200 shadow-sm">
+            <div class="text-3xl sm:text-4xl font-black text-amber-500">300+</div>
+            <div class="text-xs text-slate-700 mt-1.5 uppercase tracking-wider font-bold">School Book Fairs</div>
         </div>
-        <div>
-            <div class="text-3xl sm:text-4xl font-black text-brand-coral">85+</div>
-            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">Partner Institutions</div>
+
+        <!-- Card 2: Pastel Coral / Rose -->
+        <div class="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-rose-200 shadow-sm">
+            <div class="text-3xl sm:text-4xl font-black text-rose-400">85+</div>
+            <div class="text-xs text-slate-700 mt-1.5 uppercase tracking-wider font-bold">Partner Institutions</div>
         </div>
-        <div>
-            <div class="text-3xl sm:text-4xl font-black text-brand-teal">50+</div>
-            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">Author Sessions</div>
+
+        <!-- Card 3: Pastel Teal / Sky -->
+        <div class="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-sky-200 shadow-sm">
+            <div class="text-3xl sm:text-4xl font-black text-sky-500">50+</div>
+            <div class="text-xs text-slate-700 mt-1.5 uppercase tracking-wider font-bold">Author Sessions</div>
         </div>
-        <div>
-            <div class="text-3xl sm:text-4xl font-black text-brand-cream">100%</div>
-            <div class="text-xs text-brand-cream/80 mt-1 uppercase tracking-wider font-bold">NEP 2020 Aligned</div>
+
+        <!-- Card 4: Pastel Mint / Emerald -->
+        <div class="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-emerald-200 shadow-sm">
+            <div class="text-3xl sm:text-4xl font-black text-emerald-500">100%</div>
+            <div class="text-xs text-slate-700 mt-1.5 uppercase tracking-wider font-bold">NEP 2020 Aligned</div>
         </div>
     </div>
 </section>
@@ -106,7 +113,7 @@
         </a>
     </div>
 
-    <!-- Swiper Slider Container -->
+        <!-- Swiper Slider Container -->
     <div class="relative group">
         <!-- Overflow hidden on mobile to stop horizontal page scrolling, visible on larger screens -->
         <div class="swiper category-swiper w-full py-4 overflow-hidden sm:!overflow-visible">
@@ -114,25 +121,29 @@
                 {% for category in edu_categories %}
                 <div class="swiper-slide h-auto">
                     <a href="{% url 'book_list' %}?category={{ category.id }}" 
-                       class="group/card relative flex flex-col justify-between h-40 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] overflow-hidden">
+                    class="group/card relative flex flex-col justify-between h-40 p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-md overflow-hidden
+                    {% cycle 'bg-amber-50/80 border-amber-200 text-amber-900' 'bg-rose-50/80 border-rose-200 text-rose-900' 'bg-sky-50/80 border-sky-200 text-sky-900' 'bg-emerald-50/80 border-emerald-200 text-emerald-900' 'bg-violet-50/80 border-violet-200 text-violet-900' %}">
                         
-                        <!-- Top Accent Line -->
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1EA896] to-[#E30066]"></div>
+                        <!-- Top Accent Bar (Cycles Matching Pastel Color) -->
+                        <div class="absolute top-0 left-0 right-0 h-1.5 
+                            {% cycle 'bg-amber-400' 'bg-rose-400' 'bg-sky-400' 'bg-emerald-400' 'bg-violet-400' %}"></div>
 
                         <!-- Category Name with Smart Word Handling -->
-                        <div class="flex-1 flex flex-col justify-center leading-snug">
+                        <div class="flex-1 flex flex-col justify-center text-center leading-snug pt-2">
                             {% with words=category.name.split %}
                                 {% if words|length == 1 or words.0|length == 1 %}
                                     <!-- Single-word OR 1-letter first word -->
-                                    <span class="text-xl font-extrabold text-brand-coral tracking-tight">
+                                    <span class="text-xl font-extrabold tracking-tight 
+                                        {% cycle 'text-amber-600' 'text-rose-500' 'text-sky-600' 'text-emerald-600' 'text-violet-600' %}">
                                         {{ category.name }}
                                     </span>
                                 {% else %}
                                     <!-- Standard multi-word -->
-                                    <span class="text-xs uppercase tracking-wider font-semibold text-[#1EA896]">
+                                    <span class="text-xs uppercase tracking-wider font-bold opacity-75">
                                         {{ words.0 }}
                                     </span>
-                                    <span class="text-xl font-extrabold text-brand-coral tracking-tight mt-0.5">
+                                    <span class="text-xl font-extrabold tracking-tight mt-0.5 
+                                        {% cycle 'text-amber-600' 'text-rose-500' 'text-sky-600' 'text-emerald-600' 'text-violet-600' %}">
                                         {% for word in words|slice:"1:" %}{{ word }}{% if not forloop.last %} {% endif %}{% endfor %}
                                     </span>
                                 {% endif %}
@@ -140,11 +151,12 @@
                         </div>
 
                         <!-- Card Footer Indicator -->
-                        <div class="flex items-center justify-between pt-2">
-                            <span class="text-xs font-semibold text-[#1EA896]">Explore</span>
+                        <div class="flex items-center justify-between pt-2 border-t border-black/5">
+                            <span class="text-xs font-bold uppercase tracking-wider opacity-80">Explore</span>
                             
                             <!-- Action Button -->
-                            <div class="w-7 h-7 rounded-full bg-gray-50 text-[#1EA896] group-hover/card:bg-[#FF6B35] group-hover/card:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                            <div class="w-7 h-7 rounded-full bg-white/80 flex items-center justify-center shadow-xs transition-all duration-200 
+                                {% cycle 'text-amber-600 group-hover/card:bg-amber-400 group-hover/card:text-white' 'text-rose-500 group-hover/card:bg-rose-400 group-hover/card:text-white' 'text-sky-600 group-hover/card:bg-sky-400 group-hover/card:text-white' 'text-emerald-600 group-hover/card:bg-emerald-400 group-hover/card:text-white' 'text-violet-600 group-hover/card:bg-violet-400 group-hover/card:text-white' %}">
                                 <svg class="w-3.5 h-3.5 transform group-hover/card:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                 </svg>
@@ -156,15 +168,17 @@
             </div>
         </div>
 
-        <!-- Custom Navigation Buttons (Kept inside screen bounds on mobile) -->
-        <button class="swiper-button-prev-custom absolute left-1 sm:-left-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-11 sm:h-11 bg-white/90 sm:bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
+        <!-- Custom Navigation Buttons -->
+        <button class="swiper-button-prev-custom absolute left-1 sm:-left-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-11 sm:h-11 bg-white/90 sm:bg-white text-slate-700 rounded-full shadow-md hover:bg-slate-800 hover:text-white border border-slate-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
             <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
-        <button class="swiper-button-next-custom absolute right-1 sm:-right-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-11 sm:h-11 bg-white/90 sm:bg-white text-[#3F1122] rounded-full shadow-md hover:bg-[#3F1122] hover:text-white border border-gray-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
+        <button class="swiper-button-next-custom absolute right-1 sm:-right-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-11 sm:h-11 bg-white/90 sm:bg-white text-slate-700 rounded-full shadow-md hover:bg-slate-800 hover:text-white border border-slate-100 flex items-center justify-center transition-all duration-200 focus:outline-none">
             <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </button>
     </div>
 </section>
+
+<img src="{% static 'images/prop-bg-1.webp' %}" alt="Kids Read Storycandy Books" class="min-w-full" />
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -216,44 +230,47 @@
 </script>
 
 <!-- ==================== 3. SHOP BY AGE ==================== -->
-<section class="py-16 bg-base-200/50">
+<section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-xl mx-auto mb-10">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-plum tracking-tight">Shop by Age Group</h2>
-            <p class="text-xs sm:text-sm text-brand-plum/70 mt-2 font-medium">Find the right reading level and interests for every child</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Shop by Age Group</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 font-medium">Find the right reading level and interests for every child</p>
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <!-- Early Readers (3–5) -->
-            <a href="{% url 'book_list' %}?age_group=3-5" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-coral/5 border border-brand-plum/10 hover:border-brand-coral/40 transition-all shadow-xs hover:shadow-md text-center">
-                <span class="inline-block bg-brand-coral/10 text-brand-coral font-bold text-xs px-3 py-1 rounded-full mb-3">Early Readers</span>
-                <h3 class="text-xl font-bold text-brand-plum group-hover:text-brand-coral transition">Ages 3 – 5</h3>
-                <p class="text-xs text-brand-plum/70 mt-2">Picture books, phonic sets & activity books</p>
+            <!-- Early Readers (3–5) - Soft Amber/Orange -->
+            <a href="{% url 'book_list' %}?age_group=3-5" class="group p-6 rounded-2xl bg-amber-50/80 hover:bg-amber-100/90 border border-amber-200 transition-all duration-300 hover:-translate-y-1 shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-amber-200/80 text-amber-800 font-bold text-xs px-3 py-1 rounded-full mb-3">Early Readers</span>
+                <h3 class="text-xl font-black text-amber-600 group-hover:text-amber-700 transition">Ages 3 – 5</h3>
+                <p class="text-xs text-slate-600 mt-2 font-medium">Picture books, phonic sets & activity books</p>
             </a>
 
-            <!-- Growing Readers (6–8) -->
-            <a href="{% url 'book_list' %}?age_group=6-8" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-gold/10 border border-brand-plum/10 hover:border-brand-gold/40 transition-all shadow-xs hover:shadow-md text-center">
-                <span class="inline-block bg-brand-gold/20 text-brand-plum font-bold text-xs px-3 py-1 rounded-full mb-3">Growing Readers</span>
-                <h3 class="text-xl font-bold text-brand-plum group-hover:text-brand-plum transition">Ages 6 – 8</h3>
-                <p class="text-xs text-brand-plum/70 mt-2">Early chapter books & STEM activities</p>
+            <!-- Growing Readers (6–8) - Soft Rose/Pink -->
+            <a href="{% url 'book_list' %}?age_group=6-8" class="group p-6 rounded-2xl bg-rose-50/80 hover:bg-rose-100/90 border border-rose-200 transition-all duration-300 hover:-translate-y-1 shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-rose-200/80 text-rose-800 font-bold text-xs px-3 py-1 rounded-full mb-3">Growing Readers</span>
+                <h3 class="text-xl font-black text-rose-500 group-hover:text-rose-600 transition">Ages 6 – 8</h3>
+                <p class="text-xs text-slate-600 mt-2 font-medium">Early chapter books & STEM activities</p>
             </a>
 
-            <!-- Independent (9–12) -->
-            <a href="{% url 'book_list' %}?age_group=9-12" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-teal/5 border border-brand-plum/10 hover:border-brand-teal/40 transition-all shadow-xs hover:shadow-md text-center">
-                <span class="inline-block bg-brand-teal/10 text-brand-teal font-bold text-xs px-3 py-1 rounded-full mb-3">Independent</span>
-                <h3 class="text-xl font-bold text-brand-plum group-hover:text-brand-teal transition">Ages 9 – 12</h3>
-                <p class="text-xs text-brand-plum/70 mt-2">Fiction series, biographies & values</p>
+            <!-- Independent (9–12) - Soft Sky/Blue -->
+            <a href="{% url 'book_list' %}?age_group=9-12" class="group p-6 rounded-2xl bg-sky-50/80 hover:bg-sky-100/90 border border-sky-200 transition-all duration-300 hover:-translate-y-1 shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-sky-200/80 text-sky-800 font-bold text-xs px-3 py-1 rounded-full mb-3">Independent</span>
+                <h3 class="text-xl font-black text-sky-600 group-hover:text-sky-700 transition">Ages 9 – 12</h3>
+                <p class="text-xs text-slate-600 mt-2 font-medium">Fiction series, biographies & values</p>
             </a>
 
-            <!-- Young Adults (13+) -->
-            <a href="{% url 'book_list' %}?age_group=13%2B" class="group p-6 rounded-2xl bg-base-100 hover:bg-brand-plum/5 border border-brand-plum/10 hover:border-brand-plum/30 transition-all shadow-xs hover:shadow-md text-center">
-                <span class="inline-block bg-brand-plum/10 text-brand-plum font-bold text-xs px-3 py-1 rounded-full mb-3">Young Adults</span>
-                <h3 class="text-xl font-bold text-brand-plum transition">Teens / 13+</h3>
-                <p class="text-xs text-brand-plum/70 mt-2">Novels, self-reliance & well-being</p>
+            <!-- Young Adults (13+) - Soft Mint/Emerald -->
+            <a href="{% url 'book_list' %}?age_group=13%2B" class="group p-6 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100/90 border border-emerald-200 transition-all duration-300 hover:-translate-y-1 shadow-xs hover:shadow-md text-center">
+                <span class="inline-block bg-emerald-200/80 text-emerald-800 font-bold text-xs px-3 py-1 rounded-full mb-3">Young Adults</span>
+                <h3 class="text-xl font-black text-emerald-600 group-hover:text-emerald-700 transition">Teens / 13+</h3>
+                <p class="text-xs text-slate-600 mt-2 font-medium">Novels, self-reliance & well-being</p>
             </a>
         </div>
     </div>
 </section>
+
+<img src="{% static 'images/prop-bg-2.webp' %}" alt="Kids Read Storycandy Books" class="min-w-full" />
+
 
 <!-- ==================== CURATED COLLECTIONS ==================== -->
 
@@ -339,55 +356,57 @@
 </section>
 
 <!-- ==================== 5. B2B SCHOOL BOOK FAIR BANNER ==================== -->
-<section id="book-fair-info" class="py-16 bg-brand-plum text-brand-cream border-y border-brand-gold/20">
+<section id="book-fair-info" class="py-16 bg-gradient-to-r from-amber-100 via-rose-100 via-sky-100 to-emerald-100 text-slate-800 border-y border-amber-200/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
         
+        <!-- Left Side Info -->
         <div class="lg:col-span-7 space-y-6">
-            <span class="inline-block bg-brand-gold text-brand-plum text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+            <span class="inline-block bg-amber-400 text-slate-900 text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
                 For Principals & Coordinators
             </span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-slate-900">
                 Bring the Storycandy Book Fair to Your School
             </h2>
-            <p class="text-brand-cream/80 text-sm sm:text-base leading-relaxed font-normal">
+            <p class="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
                 We manage everything from curation to logistics with zero burden on school staff. Let’s turn your campus into a reading festival!
             </p>
 
-            <div class="grid sm:grid-cols-2 gap-4 text-sm text-brand-cream pt-2">
-                <div class="p-4 rounded-xl bg-black/20 border border-brand-gold/20 backdrop-blur-xs">
-                    <div class="text-brand-gold font-extrabold text-lg">25% Incentive</div>
-                    <p class="text-xs text-brand-cream/70 mt-1">Free books earned for school library based on total fair sales.</p>
+            <div class="grid sm:grid-cols-2 gap-4 text-sm text-slate-800 pt-2">
+                <div class="p-4 rounded-2xl bg-white/70 border border-amber-200 backdrop-blur-sm shadow-sm">
+                    <div class="text-amber-600 font-black text-lg">25% Incentive</div>
+                    <p class="text-xs text-slate-600 mt-1">Free books earned for school library based on total fair sales.</p>
                 </div>
-                <div class="p-4 rounded-xl bg-black/20 border border-brand-gold/20 backdrop-blur-xs">
-                    <div class="text-brand-gold font-extrabold text-lg">15% Discount</div>
-                    <p class="text-xs text-brand-cream/70 mt-1">Special discount for all personal teacher purchases.</p>
+                <div class="p-4 rounded-2xl bg-white/70 border border-rose-200 backdrop-blur-sm shadow-sm">
+                    <div class="text-rose-500 font-black text-lg">15% Discount</div>
+                    <p class="text-xs text-slate-600 mt-1">Special discount for all personal teacher purchases.</p>
                 </div>
             </div>
         </div>
 
-        <div class="lg:col-span-5 bg-base-100 text-brand-plum p-6 sm:p-8 rounded-3xl shadow-2xl border border-brand-gold/30">
-            <h3 class="text-xl font-extrabold text-brand-plum">Host a Book Fair</h3>
-            <p class="text-xs text-brand-plum/70 mb-6">Request a custom proposal for your school</p>
+        <!-- Right Side Form Card -->
+        <div class="lg:col-span-5 bg-white/90 backdrop-blur-md text-slate-800 p-6 sm:p-8 rounded-3xl shadow-xl border border-white/60">
+            <h3 class="text-xl font-extrabold text-slate-900">Host a Book Fair</h3>
+            <p class="text-xs text-slate-500 mb-6">Request a custom proposal for your school</p>
             
             <form action="{% url 'book_fair_proposal' %}" method="POST" class="space-y-4">
                 {% csrf_token %}
                 <div>
-                    <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">School Name</label>
-                    <input type="text" name="school_name" placeholder="e.g. Delhi Public School" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">School Name</label>
+                    <input type="text" name="school_name" placeholder="e.g. Delhi Public School" class="input input-bordered input-sm w-full rounded-lg bg-white border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400" required />
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">City</label>
-                        <select name="city" class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">City</label>
+                        <select name="city" class="select select-bordered select-sm w-full rounded-lg bg-white border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400">
                             <option value="Mumbai">Mumbai</option>
                             <option value="Pune">Pune</option>
                             <option value="Other">Other</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">Board</label>
-                        <select name="board" class="select select-bordered select-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal">
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Board</label>
+                        <select name="board" class="select select-bordered select-sm w-full rounded-lg bg-white border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400">
                             <option value="CBSE">CBSE</option>
                             <option value="ICSE">ICSE</option>
                             <option value="IB / Cambridge">IB / Cambridge</option>
@@ -397,11 +416,11 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold uppercase text-brand-plum/80 mb-1">Email / Mobile</label>
-                    <input type="text" name="contact_info" placeholder="principal@school.edu.in" class="input input-bordered input-sm w-full rounded-lg bg-base-100 border-brand-plum/20 focus:border-brand-teal" required />
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Email / Mobile</label>
+                    <input type="text" name="contact_info" placeholder="principal@school.edu.in" class="input input-bordered input-sm w-full rounded-lg bg-white border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400" required />
                 </div>
 
-                <button type="submit" class="btn bg-brand-coral hover:bg-brand-coral/90 text-white border-none w-full rounded-xl font-bold mt-2 shadow-md">
+                <button type="submit" class="btn bg-rose-500 hover:bg-rose-600 text-white border-none w-full rounded-xl font-bold mt-2 shadow-md hover:shadow-lg transition-all">
                     Submit Proposal Request
                 </button>
             </form>
