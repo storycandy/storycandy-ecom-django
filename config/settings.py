@@ -53,8 +53,8 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Razorpay Test Credentials
-RAZORPAY_KEY_ID = 'rzp_test_T3lSXcQQgqWKWr'
-RAZORPAY_KEY_SECRET = 'UkStB0GQj4hYnR5H92fsNqBx'
+RAZORPAY_KEY_ID = 'rzp_test_TaAccGcxLmMQ8Y'
+RAZORPAY_KEY_SECRET = '55hTZdJi97zV6EWW9t73MxZU'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
