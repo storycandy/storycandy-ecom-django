@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-j)5_#@phy8=qv2j2-=x=^i02@+fqn@&$s7x+fa)cc34@+09qzv
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['storycandy.co']
 
 
 # Application definition
