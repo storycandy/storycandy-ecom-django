@@ -6,7 +6,7 @@ admin.site.site_header = "StoryCandy Administration"  # Changes header text (top
 admin.site.site_title = "StoryCandy Admin Portal"     # Changes browser tab title
 admin.site.index_title = "Welcome to StoryCandy Management"  # Changes main index page subtitle
 
-from .models import Book, BookImage, Category, Collection, Order, OrderItem
+from .models import Book, BookImage, Category, Collection, Order, OrderItem, Toy, ToyImage
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 class BookImageInline(admin.TabularInline):
@@ -20,12 +20,11 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'price', 'stock', 'is_available']
     search_fields = ['title', 'author', 'isbn']
 
-class OrderItemInline(GenericTabularInline):
+class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    # Make items read-only in the order view to prevent accidental edits
-    readonly_fields = ('item_type_display', 'item_title_display', 'item_id_display', 'price', 'quantity')
     fields = ('item_type_display', 'item_title_display', 'item_id_display', 'price', 'quantity')
+    readonly_fields = ('item_type_display', 'item_title_display', 'item_id_display', 'price', 'quantity')
     can_delete = False
 
     @admin.display(description='Type')
@@ -40,11 +39,14 @@ class OrderItemInline(GenericTabularInline):
 
     @admin.display(description='Item Title / Name')
     def item_title_display(self, obj):
-        # Fetches the underlying object (Book or Toy) and gets its title/name
-        if obj.item:
-            return getattr(obj.item, 'title', str(obj.item))
+        if obj.content_type and obj.object_id:
+            try:
+                model_cls = obj.content_type.model_class()
+                item_obj = model_cls.objects.get(pk=obj.object_id)
+                return getattr(item_obj, 'title', str(item_obj))
+            except Exception:
+                return f"Deleted item (ID: {obj.object_id})"
         return '-'
-
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

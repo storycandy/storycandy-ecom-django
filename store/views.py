@@ -436,22 +436,26 @@ def payment_success(request):
             # 1. Verify Payment
             client.utility.verify_payment_signature(params_dict)
 
-            # 2. Mark Order as Paid
+            # 2. Update Order status
             order = Order.objects.get(razorpay_order_id=razorpay_order_id)
             order.paid = True
             order.razorpay_payment_id = payment_id
             order.save()
 
-            # 3. Clear Cart Explicitly from Session
+            # 3. CLEAR CART IMMEDIATELY BEFORE ANYTHING ELSE
+            cart_obj = Cart(request)
+            cart_obj.clear()
+            
+            # Force session flush
             if 'cart' in request.session:
                 del request.session['cart']
-                request.session.modified = True
+            request.session.modified = True
 
-            # 4. Optional: Send Magic Link/Confirmation Email
+            # 4. Attempt Email (Failure won't break cart or order completion)
             try:
                 send_order_magic_link(order, request=request)
             except Exception as mail_err:
-                print(f"Failed to send magic link email: {mail_err}")
+                print(f"[WARNING] Mail failed (Zoho expired or network error): {mail_err}")
 
             return render(request, 'store/success.html', {'order': order})
 
