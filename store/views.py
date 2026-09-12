@@ -6,10 +6,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseBadRequest, JsonResponse
-from .models import Book, Category, Collection, Order, OrderItem
+from .models import Book, Category, Collection, Order, OrderItem, Toy
 from .cart import Cart
 from django.contrib import messages
-from .models import Order, OrderItem, Book, Toy
 from .utils.magiclink import send_order_magic_link, verify_magic_token
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -78,6 +77,68 @@ def home_view(request):
 def about_view(request):    
     context = {}
     return render(request, 'about.html', context)
+
+def toy_list(request):
+    toys = Toy.objects.filter(is_available=True)
+
+    # 1. Initialize active_collection BEFORE any checks
+    active_collection = None
+
+    # Search Query
+    query = request.GET.get('q')
+    if query:
+        toys = toys.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(brand__icontains=query)
+        )
+
+    # Collection Filter
+    collection_id = request.GET.get('collection')
+    if collection_id:
+        toys = toys.filter(collections__id=collection_id)
+        active_collection = Collection.objects.filter(id=collection_id).first()
+
+    # Category Filter
+    category_id = request.GET.get('category')
+    if category_id:
+        toys = toys.filter(category_id=category_id)
+
+    # Age Group Filter
+    age_group = request.GET.get('age_group')
+    if age_group:
+        toys = toys.filter(age_group=age_group)
+
+    # Pagination
+    paginator = Paginator(toys.distinct(), 30)  # 30 toys per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'toys': page_obj,  # Passing page_obj as 'toys' to keep the template loop intact
+        'page_obj': page_obj,
+        'is_paginated': page_obj.has_other_pages(),
+        'categories': Category.objects.all(),
+        'collections': Collection.objects.all(),
+        'active_collection': active_collection,
+        'age_group_choices': getattr(Toy, 'AGE_GROUP_CHOICES', []),
+    }
+    return render(request, 'store/toy_list.html', context)
+
+
+def toy_detail(request, pk):
+    toy = get_object_or_404(Toy, pk=pk)
+
+    # Fetch related toys in the same age group or category (excluding current toy)
+    related_toys = Toy.objects.filter(
+        category=toy.category
+    ).exclude(pk=toy.pk)[:3]
+
+    context = {
+        'toy': toy,
+        'related_toys': related_toys,
+    }
+    return render(request, 'store/toy_detail.html', context)
 
 def book_list(request):
     books = Book.objects.filter(is_available=True)

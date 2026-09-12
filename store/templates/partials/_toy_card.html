@@ -1,0 +1,73 @@
+<div class="group bg-base-100 rounded-2xl border border-brand-plum/10 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+    
+    <!-- Image Wrapper with Link -->
+    <a href="{% url 'toy_detail' toy.id %}" class="relative w-full h-64 overflow-hidden bg-base-200/50 block">
+        {% if toy.primary_image %}
+            <img 
+                src="{{ toy.primary_image.url }}" 
+                alt="{{ toy.name }}" 
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+            />
+        {% elif toy.images.first %}
+            <img 
+                src="{{ toy.images.first.image.url }}" 
+                alt="{{ toy.name }}" 
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+            />
+        {% elif toy.image %}
+            <img 
+                src="{{ toy.image.url }}" 
+                alt="{{ toy.name }}" 
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+            />
+        {% else %}
+            <div class="w-full h-full bg-base-300 flex items-center justify-center text-brand-plum/50 font-bold text-xs">
+                No Image
+            </div>
+        {% endif %}
+        
+        <!-- Category / Type Badge -->
+        <span class="absolute top-3 left-3 bg-base-100/90 backdrop-blur-xs text-brand-plum/80 text-[10px] font-bold px-2.5 py-1 rounded-full border border-brand-plum/10 shadow-xs uppercase">
+            {{ toy.category.name|default:toy.toy_type|default:"Toy" }}
+        </span>
+    </a>
+
+    <!-- Toy Info -->
+    <div class="p-5 flex flex-col justify-between flex-grow space-y-3">
+        <div>
+            <span class="text-[11px] font-bold text-brand-teal tracking-wide uppercase">
+                Age {{ toy.get_age_group_display|default:toy.age_group|default:"ALL" }}
+            </span>
+            <h3 class="font-bold text-brand-plum text-sm sm:text-base line-clamp-1 mt-1 group-hover:text-brand-coral transition" title="{{ toy.name }}">
+                <a href="{% url 'toy_detail' toy.id %}">
+                    {{ toy.name }}
+                </a>
+            </h3>
+            <p class="text-xs text-brand-plum/70 line-clamp-1 mt-0.5">
+                {% if toy.brand %}By {{ toy.brand }}{% else %}&nbsp;{% endif %}
+            </p>
+        </div>
+
+        <!-- Footer Action (Price + Add to Cart Form) -->
+        <div class="pt-3 border-t border-brand-plum/10 flex items-center justify-between">
+            <div>
+                {% if toy.discount_price %}
+                    <span class="text-base sm:text-lg font-black text-brand-plum">₹{{ toy.discount_price }}</span>
+                    <span class="text-xs text-brand-plum/40 line-through ml-1">₹{{ toy.price }}</span>
+                {% else %}
+                    <span class="text-base sm:text-lg font-black text-brand-plum">₹{{ toy.price }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Functional Add to Cart Form for Toys -->
+            <form action="{% url 'add_to_cart' 'toy' toy.id %}" method="POST" class="add-to-cart-form">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1" />
+                <button type="submit" class="btn bg-brand-teal hover:bg-brand-teal/90 text-white border-none btn-xs sm:btn-sm rounded-lg px-3">
+                    Add
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>

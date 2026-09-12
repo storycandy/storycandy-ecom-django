@@ -20,6 +20,21 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'price', 'stock', 'is_available']
     search_fields = ['title', 'author', 'isbn']
 
+class ToyImageInline(admin.TabularInline):
+    model = ToyImage
+    extra = 3  # Gives 3 empty image slots by default
+    fields = ['image', 'alt_text', 'is_primary', 'order']
+
+@admin.register(Toy)
+class ToyAdmin(admin.ModelAdmin):
+    inlines = [ToyImageInline]
+    list_display = ['title', 'brand', 'price', 'discount_price', 'stock', 'is_available', 'age_group']
+    list_filter = ['is_available', 'age_group', 'category', 'collections']
+    search_fields = ['title', 'brand', 'description']
+    list_editable = ['price', 'discount_price', 'stock', 'is_available']
+    filter_horizontal = ['collections']
+    list_per_page = 20
+
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
