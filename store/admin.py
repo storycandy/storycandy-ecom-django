@@ -77,6 +77,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'created_at')  # Adjust timestamp fields if named differently in TimeStampedModel
-    search_fields = ('name',)
+    list_display = ['name', 'category_type', 'slug']
+    list_filter = ['category_type']
+    search_fields = ['name']
     prepopulated_fields = {'slug': ('name',)}

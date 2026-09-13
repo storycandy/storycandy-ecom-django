@@ -64,12 +64,16 @@ def home_view(request):
         collections__name__iexact='India Publishing'
     ).distinct()[:8]
 
+    toy_categories = Category.objects.filter(category_type=Category.CategoryType.TOY)
+    book_categories = Category.objects.filter(category_type=Category.CategoryType.BOOK)
+
     context = {
         'bestseller_books': bestseller_books,
         'popular_books': popular_books,
         'india_publishing_books': india_publishing_books,
         'collections': Collection.objects.all(),
-        'categories': Category.objects.all(),
+        'toy_categories': toy_categories,
+        'book_categories': book_categories,
         'edu_categories' : edu_categories,
     }
     return render(request, 'home.html', context)
@@ -118,7 +122,7 @@ def toy_list(request):
         'toys': page_obj,  # Passing page_obj as 'toys' to keep the template loop intact
         'page_obj': page_obj,
         'is_paginated': page_obj.has_other_pages(),
-        'categories': Category.objects.all(),
+        'categories': Category.objects.filter(category_type=Category.CategoryType.TOY),
         'collections': Collection.objects.all(),
         'active_collection': active_collection,
         'age_group_choices': getattr(Toy, 'AGE_GROUP_CHOICES', []),
@@ -185,7 +189,7 @@ def book_list(request):
         'books': page_obj,  # Passing page_obj as 'books' keeps your template loop intact
         'page_obj': page_obj,
         'is_paginated': page_obj.has_other_pages(),
-        'categories': Category.objects.all(),
+        'categories': Category.objects.filter(category_type=Category.CategoryType.BOOK),
         'collections': Collection.objects.all(),
         'active_collection': active_collection,
         'language_choices': Book.LANGUAGE_CHOICES,

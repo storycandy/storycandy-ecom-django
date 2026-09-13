@@ -22,18 +22,59 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
+
+def item_cover_upload_path(instance, filename, folder_prefix):
+    """Dynamic path helper for both books and toys."""
+    item = getattr(instance, 'book', getattr(instance, 'toy', None))
+    
+    if item and hasattr(item, 'title'):
+        title = item.title
+    else:
+        title = getattr(instance, 'title', 'untitled')
+
+    slug = slugify(title) or 'item'
+    ext = filename.split('.')[-1] if '.' in filename else ''
+    timestamp = int(time.time())
+    order = getattr(instance, 'order', getattr(instance, 'id', 1)) or 1
+
+    new_filename = f"{slug}-{timestamp}-{order}.{ext}" if ext else f"{slug}-{timestamp}-{order}"
+    return os.path.join(f'{folder_prefix}/covers/', new_filename)
+
+def book_cover_upload_path(instance, filename):
+    return item_cover_upload_path(instance, filename, folder_prefix='books')
+
+
+def toy_cover_upload_path(instance, filename):
+    return item_cover_upload_path(instance, filename, folder_prefix='toys')
+
+def category_image_upload_path(instance, filename):
+    return item_cover_upload_path(instance, filename, folder_prefix="categories")
+
 class Category(TimeStampedModel):
-    """
-    Structural classification (e.g., Fiction, Non-fiction, Activity Books).
-    """
-    name = models.CharField(max_length=100, unique=True)
+    class CategoryType(models.TextChoices):
+        BOOK = 'BOOK', 'Book'
+        TOY = 'TOY', 'Toy'
+
+    name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
+    category_type = models.CharField(
+        max_length=10,
+        choices=CategoryType.choices,
+        default=CategoryType.BOOK
+    )
+    
+    image = models.ImageField(
+        upload_to=category_image_upload_path,
+        blank=True,
+        null=True
+    )
 
     class Meta:
         verbose_name_plural = "Categories"
+        unique_together = ('name', 'category_type')  # Allows same category name for different types if needed
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.get_category_type_display()})"
 
 class Collection(TimeStampedModel):
     """
@@ -78,29 +119,6 @@ class Collection(TimeStampedModel):
 
 #     return os.path.join('books/covers/', new_filename)
 
-def item_cover_upload_path(instance, filename, folder_prefix):
-    """Dynamic path helper for both books and toys."""
-    item = getattr(instance, 'book', getattr(instance, 'toy', None))
-    
-    if item and hasattr(item, 'title'):
-        title = item.title
-    else:
-        title = getattr(instance, 'title', 'untitled')
-
-    slug = slugify(title) or 'item'
-    ext = filename.split('.')[-1] if '.' in filename else ''
-    timestamp = int(time.time())
-    order = getattr(instance, 'order', getattr(instance, 'id', 1)) or 1
-
-    new_filename = f"{slug}-{timestamp}-{order}.{ext}" if ext else f"{slug}-{timestamp}-{order}"
-    return os.path.join(f'{folder_prefix}/covers/', new_filename)
-
-def book_cover_upload_path(instance, filename):
-    return item_cover_upload_path(instance, filename, folder_prefix='books')
-
-
-def toy_cover_upload_path(instance, filename):
-    return item_cover_upload_path(instance, filename, folder_prefix='toys')
 
 class Book(TimeStampedModel):
     # ... your existing Book model fields ...
