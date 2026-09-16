@@ -576,3 +576,35 @@ def book_fair_proposal(request):
             messages.error(request, 'Failed to send request. Please try again.')
 
         return redirect(request.META.get('HTTP_REFERER', '/'))
+
+def book_club_request(request):
+    if request.method == 'POST':
+        school_name = request.POST.get('school_name')
+        grade_level = request.POST.get('grade_level')
+        role = request.POST.get('role')
+        contact_info = request.POST.get('contact_info')
+
+        subject = f"New Book Club Starter Kit Request: {school_name}"
+        message = (
+            f"You have received a new Book Club request:\n\n"
+            f"School/Organization Name: {school_name}\n"
+            f"Grade Level: {grade_level}\n"
+            f"Role: {role}\n"
+            f"Contact Info (Email/Mobile): {contact_info}\n"
+        )
+        
+        recipient_list = ['Storycandy1111@gmail.com']
+
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                recipient_list,
+                fail_silently=False,
+            )
+            messages.success(request, 'Your Book Club starter kit request has been submitted successfully!')
+        except Exception as e:
+            messages.error(request, 'Failed to send request. Please try again.')
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))

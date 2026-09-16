@@ -21,4 +21,5 @@ urlpatterns = [
     path('orders/magic/<str:token>/', views.order_magic_access, name='order_magic_access'),
 
     path('book-fair-proposal/', views.book_fair_proposal, name='book_fair_proposal'),
+    path('book-club-request/', views.book_club_request, name='book_club_request'),
 ]
